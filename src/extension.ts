@@ -17,8 +17,8 @@ import { logger } from './utils'
 // }
 
 const { activate, deactivate } = defineExtension(() => {
-  // Copy Image Name
-  useCommand('copy-image-info.copyImageName', async (uri) => {
+  // Copy Image Fullname
+  useCommand('copy-image-info.copyImageFullname', async (uri) => {
     const uriBasename = Utils.basename(uri)
 
     const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(uriBasename)))

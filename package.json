@@ -3,19 +3,8 @@
   "name": "copy-image-info",
   "displayName": "Copy Image Info",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
-  "tags": [
-    "copy",
-    "clipboard",
-    "size",
-    "image",
-    "image-size",
-    "image-info",
-    "unocss",
-    "tailwind",
-    "tailwindcss"
-  ],
   "author": {
     "name": "lizyChy0329",
     "url": "https://github.com/lizyChy0329"
@@ -31,6 +20,18 @@
     "Other"
   ],
   "main": "./dist/extension.cjs",
+  "icon": "./icon.png",
+  "tags": [
+    "copy",
+    "clipboard",
+    "size",
+    "image",
+    "image-size",
+    "image-info",
+    "unocss",
+    "tailwind",
+    "tailwindcss"
+  ],
   "engines": {
     "vscode": "^1.82.0"
   },
@@ -40,7 +41,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "copy-image-info.copyImageName",
+        "command": "copy-image-info.copyImageFullname",
         "title": "Copy Image Name"
       },
       {
@@ -55,7 +56,7 @@
     "menus": {
       "explorer/context": [
         {
-          "command": "copy-image-info.copyImageName",
+          "command": "copy-image-info.copyImageFullname",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
           "group": "copy-image-info"
         },
@@ -76,7 +77,9 @@
     "build": "tsup --env.NODE_ENV production --treeshake",
     "dev": "tsup --watch ./src --env.NODE_ENV development",
     "typecheck": "tsc --noEmit",
-    "vscode:prepublish": "pnpm run build"
+    "vscode:prepublish": "pnpm run build",
+    "package": "vsce package --no-dependencies",
+    "publish": "vsce publish --no-dependencies"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.1",
