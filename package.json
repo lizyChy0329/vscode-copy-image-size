@@ -1,0 +1,96 @@
+{
+  "publisher": "lizyChy0329",
+  "name": "copy-image-size",
+  "displayName": "Copy Image Size",
+  "type": "module",
+  "version": "0.0.3",
+  "private": false,
+  "description": "Copy Image Size to Tailwindcss or Unocss",
+  "author": {
+    "name": "lizyChy0329",
+    "url": "https://github.com/lizyChy0329"
+  },
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/lizyChy0329/vscode-copy-image-size"
+  },
+  "categories": [
+    "Snippets",
+    "Debuggers",
+    "Testing",
+    "Other"
+  ],
+  "main": "./dist/extension.cjs",
+  "icon": "./icon.png",
+  "tags": [
+    "copy",
+    "clipboard",
+    "size",
+    "image",
+    "image size",
+    "unocss",
+    "tailwind",
+    "tailwindcss"
+  ],
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "copy-image-size.copyImageFullname",
+        "title": "Copy Image Name"
+      },
+      {
+        "command": "copy-image-size.copyImageSizeToTailwind",
+        "title": "Copy Image Size to Tailwindcss"
+      },
+      {
+        "command": "copy-image-size.copyImageExt",
+        "title": "Copy Image Extname"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "copy-image-size.copyImageFullname",
+          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
+          "group": "copy-image-size"
+        },
+        {
+          "command": "copy-image-size.copyImageSizeToTailwind",
+          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
+          "group": "copy-image-size"
+        },
+        {
+          "command": "copy-image-size.copyImageExt",
+          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
+          "group": "copy-image-size"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsup --env.NODE_ENV production --treeshake",
+    "dev": "tsup --watch ./src --env.NODE_ENV development",
+    "typecheck": "tsc --noEmit",
+    "vscode:prepublish": "pnpm run build",
+    "package": "vsce package --no-dependencies",
+    "publish": "vsce publish --no-dependencies"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.27.1",
+    "@types/node": "^18.19.45",
+    "@types/vscode": "^1.82.0",
+    "await-to-js": "^3.0.0",
+    "clipboardy": "^4.0.0",
+    "image-size": "^1.1.1",
+    "reactive-vscode": "^0.2.1",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4",
+    "vscode-uri": "^3.0.8"
+  }
+}
