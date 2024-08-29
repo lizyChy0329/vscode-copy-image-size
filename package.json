@@ -1,0 +1,74 @@
+{
+  "publisher": "copy-image-info",
+  "name": "copy-image-info",
+  "displayName": "Copy Image Info",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.cjs",
+  "engines": {
+    "vscode": "^1.80.0",
+    "node": ">=18.0.0"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "copy-image-info.copyImageName",
+        "title": "Copy Image Name"
+      },
+      {
+        "command": "copy-image-info.copyImageSizeToTailwind",
+        "title": "Copy Image Size to Tailwindcss"
+      },
+      {
+        "command": "copy-image-info.copyImageExt",
+        "title": "Copy Image Extname"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "copy-image-info.copyImageName",
+          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
+          "group": "copy-image-info"
+        },
+        {
+          "command": "copy-image-info.copyImageSizeToTailwind",
+          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
+          "group": "copy-image-info"
+        },
+        {
+          "command": "copy-image-info.copyImageExt",
+          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
+          "group": "copy-image-info"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsup --env.NODE_ENV production --treeshake",
+    "dev": "tsup --watch ./src --env.NODE_ENV development",
+    "typecheck": "tsc --noEmit",
+    "vscode:prepublish": "pnpm run build"
+  },
+  "dependencies": {
+    "vscode-uri": "^3.0.8"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.27.1",
+    "@types/node": "^18.19.45",
+    "@types/vscode": "^1.92.0",
+    "await-to-js": "^3.0.0",
+    "clipboardy": "^4.0.0",
+    "image-size": "^1.1.1",
+    "reactive-vscode": "^0.2.1",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  }
+}
