@@ -1,17 +1,18 @@
 {
   "publisher": "lizyChy0329",
-  "name": "copy-image-info",
-  "displayName": "Copy Image Info",
+  "name": "copy-image-size",
+  "displayName": "Copy Image Size",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
+  "description": "Copy Image Size to Tailwindcss or Unocss",
   "author": {
     "name": "lizyChy0329",
     "url": "https://github.com/lizyChy0329"
   },
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/lizyChy0329/vscode-copy-image-info"
+    "url": "https://github.com/lizyChy0329/vscode-copy-image-size"
   },
   "categories": [
     "Snippets",
@@ -26,8 +27,7 @@
     "clipboard",
     "size",
     "image",
-    "image-size",
-    "image-info",
+    "image size",
     "unocss",
     "tailwind",
     "tailwindcss"
@@ -41,34 +41,34 @@
   "contributes": {
     "commands": [
       {
-        "command": "copy-image-info.copyImageFullname",
+        "command": "copy-image-size.copyImageFullname",
         "title": "Copy Image Name"
       },
       {
-        "command": "copy-image-info.copyImageSizeToTailwind",
+        "command": "copy-image-size.copyImageSizeToTailwind",
         "title": "Copy Image Size to Tailwindcss"
       },
       {
-        "command": "copy-image-info.copyImageExt",
+        "command": "copy-image-size.copyImageExt",
         "title": "Copy Image Extname"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "copy-image-info.copyImageFullname",
+          "command": "copy-image-size.copyImageFullname",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
-          "group": "copy-image-info"
+          "group": "copy-image-size"
         },
         {
-          "command": "copy-image-info.copyImageSizeToTailwind",
+          "command": "copy-image-size.copyImageSizeToTailwind",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
-          "group": "copy-image-info"
+          "group": "copy-image-size"
         },
         {
-          "command": "copy-image-info.copyImageExt",
+          "command": "copy-image-size.copyImageExt",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
-          "group": "copy-image-info"
+          "group": "copy-image-size"
         }
       ]
     }

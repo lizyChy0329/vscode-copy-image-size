@@ -18,7 +18,7 @@ import { logger } from './utils'
 
 const { activate, deactivate } = defineExtension(() => {
   // Copy Image Fullname
-  useCommand('copy-image-info.copyImageFullname', async (uri) => {
+  useCommand('copy-image-size.copyImageFullname', async (uri) => {
     const uriBasename = Utils.basename(uri)
 
     const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(uriBasename)))
@@ -30,7 +30,7 @@ const { activate, deactivate } = defineExtension(() => {
   })
 
   // Copy Image Size to Tailwindcss: w-[100px] h-[100px]
-  useCommand('copy-image-info.copyImageSizeToTailwind', async (uri) => {
+  useCommand('copy-image-size.copyImageSizeToTailwind', async (uri) => {
     const fileUrl = uri.toString()
 
     const [filePathErr, fileAbsolutePath] = await to(Promise.resolve(fileURLToPath(fileUrl)))
@@ -63,7 +63,7 @@ const { activate, deactivate } = defineExtension(() => {
   })
 
   // Copy Image Ext
-  useCommand('copy-image-info.copyImageExt', async (uri) => {
+  useCommand('copy-image-size.copyImageExt', async (uri) => {
     const uriExtname = Utils.extname(uri)
 
     const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(uriExtname)))
