@@ -1,6 +1,6 @@
 <!-- # Copy Image Info -->
 
-<h2 align="center"><img src="./icon_v1.png" height="128" /><br />Copy Image Info</h2>
+<h2 align="center"><img src="./icon.png" height="128" /><br />Copy Image Info</h2>
 <p align="center"><strong>⚡️📋 Copy Image Size to Tailwindcss or Unocss
 </strong></p>
 <p align=center>
