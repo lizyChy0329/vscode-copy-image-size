@@ -1,17 +1,38 @@
 {
-  "publisher": "copy-image-info",
+  "publisher": "lizyChy0329",
   "name": "copy-image-info",
   "displayName": "Copy Image Info",
   "type": "module",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
+  "tags": [
+    "copy",
+    "clipboard",
+    "size",
+    "image",
+    "image-size",
+    "image-info",
+    "unocss",
+    "tailwind",
+    "tailwindcss"
+  ],
+  "author": {
+    "name": "lizyChy0329",
+    "url": "https://github.com/lizyChy0329"
+  },
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/lizyChy0329/vscode-copy-image-info"
+  },
   "categories": [
+    "Snippets",
+    "Debuggers",
+    "Testing",
     "Other"
   ],
   "main": "./dist/extension.cjs",
   "engines": {
-    "vscode": "^1.80.0",
-    "node": ">=18.0.0"
+    "vscode": "^1.82.0"
   },
   "activationEvents": [
     "onStartupFinished"
@@ -57,18 +78,16 @@
     "typecheck": "tsc --noEmit",
     "vscode:prepublish": "pnpm run build"
   },
-  "dependencies": {
-    "vscode-uri": "^3.0.8"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.1",
     "@types/node": "^18.19.45",
-    "@types/vscode": "^1.92.0",
+    "@types/vscode": "^1.82.0",
     "await-to-js": "^3.0.0",
     "clipboardy": "^4.0.0",
     "image-size": "^1.1.1",
     "reactive-vscode": "^0.2.1",
     "tsup": "^8.2.4",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "vscode-uri": "^3.0.8"
   }
 }

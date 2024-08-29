@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  vscode-uri:
-    specifier: ^3.0.8
-    version: 3.0.8
-
 devDependencies:
   '@antfu/eslint-config':
     specifier: ^2.27.1
@@ -37,6 +32,9 @@ devDependencies:
   typescript:
     specifier: ^5.5.4
     version: 5.5.4
+  vscode-uri:
+    specifier: ^3.0.8
+    version: 3.0.8
 
 packages:
 
@@ -3421,7 +3419,7 @@ packages:
 
   /vscode-uri@3.0.8:
     resolution: {integrity: sha512-AyFQ0EVmsOZOlAnxoFOGOq1SQDWAB7C6aqMGS23svWAllfOaxbuFvcT8D1i8z3Gyn8fraVeZNNmN6e9bxxXkKw==}
-    dev: false
+    dev: true
 
   /vue-eslint-parser@9.4.3(eslint@8.57.0):
     resolution: {integrity: sha512-2rYRLWlIpaiN8xbPiDyXZXRgLGOtWxERV7ND5fFAv5qo1D2N9Fu9MNajBNc6o13lZ+24DAWCkQCvj4klgmcITg==}
