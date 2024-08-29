@@ -26,7 +26,7 @@ const { activate, deactivate } = defineExtension(() => {
       return logger.error(clipboardErr)
     }
 
-    window.showInformationMessage(`${uriBasename} is copy success!`)
+    window.showInformationMessage(`${uriBasename} copied!`)
   })
 
   // Copy Image Size to Tailwindcss: w-[100px] h-[100px]
@@ -50,7 +50,7 @@ const { activate, deactivate } = defineExtension(() => {
         return logger.error(clipboardErr)
       }
 
-      return window.showInformationMessage(`size-[${dimensions?.width}px] utility is copy success!`)
+      return window.showInformationMessage(`size-[${dimensions?.width}px] copied!`)
     }
 
     // w-[] h-[]
@@ -59,7 +59,7 @@ const { activate, deactivate } = defineExtension(() => {
       return logger.error(clipboardErr)
     }
 
-    window.showInformationMessage(`w-[${dimensions?.width}px] h-[${dimensions?.height}px] utility is copy success!`)
+    window.showInformationMessage(`w-[${dimensions?.width}px] h-[${dimensions?.height}px] copied!`)
   })
 
   // Copy Image Ext
@@ -71,7 +71,7 @@ const { activate, deactivate } = defineExtension(() => {
       return logger.error(clipboardErr)
     }
 
-    window.showInformationMessage(`${uriExtname} is copy success!`)
+    window.showInformationMessage(`${uriExtname} copied!`)
   })
 })
 
