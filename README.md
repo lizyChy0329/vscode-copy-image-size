@@ -9,7 +9,7 @@
 </p>
 
 <p align=center>
-<img src="https://files.catbox.moe/098w4t.png" />
+<img src="https://files.catbox.moe/gft8w7.png" />
 </p>
 
 ## Usege ⚡️

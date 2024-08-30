@@ -42,7 +42,7 @@
     "commands": [
       {
         "command": "copy-image-size.copyImageFullname",
-        "title": "Copy Image Name"
+        "title": "Copy Image Fullname"
       },
       {
         "command": "copy-image-size.copyImageSizeToTailwind",
@@ -50,25 +50,25 @@
       },
       {
         "command": "copy-image-size.copyImageExt",
-        "title": "Copy Image Extname"
+        "title": "Copy Image Ext"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "copy-image-size.copyImageFullname",
-          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
-          "group": "copy-image-size"
-        },
-        {
           "command": "copy-image-size.copyImageSizeToTailwind",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
-          "group": "copy-image-size"
+          "group": "copy-image-size@01"
+        },
+        {
+          "command": "copy-image-size.copyImageFullname",
+          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
+          "group": "copy-image-size@02"
         },
         {
           "command": "copy-image-size.copyImageExt",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
-          "group": "copy-image-size"
+          "group": "copy-image-size@03"
         }
       ]
     }
