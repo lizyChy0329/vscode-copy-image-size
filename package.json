@@ -79,7 +79,9 @@
     "typecheck": "tsc --noEmit",
     "vscode:prepublish": "pnpm run build",
     "package": "vsce package --no-dependencies",
-    "publish": "vsce publish --no-dependencies"
+    "publish": "vsce publish --no-dependencies",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.1",

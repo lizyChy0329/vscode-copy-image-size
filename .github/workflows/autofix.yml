@@ -1,0 +1,35 @@
+name: autofix.ci
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install Dependencies
+        run: pnpm i
+
+      - name: Lint
+        run: pnpm lint:fix
+
+      - uses: autofix-ci/action@v1
