@@ -5,6 +5,7 @@
   "type": "module",
   "version": "0.0.5",
   "private": false,
+  "packageManager": "pnpm@9.8.0",
   "description": "Copy Image Size to Tailwindcss or Unocss",
   "author": {
     "name": "lizyChy0329",
