@@ -6,7 +6,7 @@
   "version": "0.1.0",
   "private": false,
   "packageManager": "pnpm@9.8.0",
-  "description": "Copy Image Size to Tailwindcss or Unocss",
+  "description": "Copy Image Size for Tailwind or Unocss or CSS",
   "author": {
     "name": "lizyChy0329",
     "url": "https://github.com/lizyChy0329"
