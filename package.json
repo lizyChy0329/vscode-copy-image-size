@@ -3,7 +3,7 @@
   "name": "copy-image-size",
   "displayName": "Copy Image Size",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "private": false,
   "packageManager": "pnpm@9.8.0",
   "description": "Copy Image Size to Tailwindcss or Unocss",
@@ -42,12 +42,16 @@
   "contributes": {
     "commands": [
       {
-        "command": "copy-image-size.copyImageFullname",
-        "title": "Copy Image Fullname"
-      },
-      {
         "command": "copy-image-size.copyImageSizeToTailwind",
         "title": "Copy Image Size to Tailwindcss"
+      },
+      {
+        "command": "copy-image-size.copyImageSizeToCss",
+        "title": "Copy Image Size to CSS"
+      },
+      {
+        "command": "copy-image-size.copyImageFullname",
+        "title": "Copy Image Fullname"
       },
       {
         "command": "copy-image-size.copyImageExt",
@@ -62,14 +66,19 @@
           "group": "copy-image-size@01"
         },
         {
-          "command": "copy-image-size.copyImageFullname",
+          "command": "copy-image-size.copyImageSizeToCss",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
           "group": "copy-image-size@02"
         },
         {
+          "command": "copy-image-size.copyImageFullname",
+          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
+          "group": "copy-image-size@10"
+        },
+        {
           "command": "copy-image-size.copyImageExt",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
-          "group": "copy-image-size@03"
+          "group": "copy-image-size@20"
         }
       ]
     }
@@ -81,6 +90,7 @@
     "vscode:prepublish": "pnpm run build",
     "package": "vsce package --no-dependencies",
     "publish": "vsce publish --no-dependencies",
+    "release": "bumpp",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -89,11 +99,21 @@
     "@types/node": "^18.19.45",
     "@types/vscode": "^1.82.0",
     "await-to-js": "^3.0.0",
+    "bumpp": "^9.5.2",
     "clipboardy": "^4.0.0",
+    "eslint-plugin-format": "^0.1.2",
     "image-size": "^1.1.1",
+    "lint-staged": "^15.2.10",
     "reactive-vscode": "^0.2.1",
+    "simple-git-hooks": "^2.11.1",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
     "vscode-uri": "^3.0.8"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   }
 }
