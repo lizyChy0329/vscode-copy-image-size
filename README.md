@@ -9,9 +9,9 @@
 </p>
 
 <p align=center>
-<img src="https://files.catbox.moe/gft8w7.png" />
+<img src="https://files.catbox.moe/nqvcb8.png" />
 </p>
 
 ## Usege ⚡️
 
-Right-click VSCode image file, Copy Image Size for Tailwind or Unocss or CSS
+Right-click VSCode image file, Copy Image Size and translate to (Tailwind/Unocss) Utility or CSS Properties
