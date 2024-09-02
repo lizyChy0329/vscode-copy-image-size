@@ -2,12 +2,11 @@ name: autofix.ci
 
 on:
   push:
-    branches:
-      - main
-
   pull_request:
     branches:
       - main
+permissions:
+  contents: read
 
 jobs:
   autofix:
@@ -26,7 +25,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Dependencies
-        run: pnpm i
+        run: pnpm i --frozen-lockfile
 
       - name: Lint
         run: pnpm lint:fix

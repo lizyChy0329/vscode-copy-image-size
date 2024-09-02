@@ -24,8 +24,8 @@ jobs:
           node-version: lts/*
           cache: pnpm
 
-      - name: Install
-        run: pnpm install
+      - name: Install Dependencies
+        run: pnpm i --frozen-lockfile
 
       - name: Build
         run: pnpm build
