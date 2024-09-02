@@ -2,45 +2,43 @@ import { fileURLToPath } from 'node:url'
 import { defineExtension, useCommand } from 'reactive-vscode'
 import { env, window } from 'vscode'
 import { imageSize } from 'image-size'
+import type { URI } from 'vscode-uri'
 import { Utils } from 'vscode-uri'
 import to from 'await-to-js'
 // import { message } from './configs'
 import { logger } from './utils'
 
-// async function toResolve<T>(func: T): Promise<Awaited<T>> {
-//   const [err, data] = await to(Promise.resolve(func))
-//   if (err || !data) {
-//     return logger.error(err)
-//   }
+type T0 = typeof imageSize
+type OverloadedReturnType<T> =
+    T extends { (...args: any[]): infer R, (...args: any[]): infer R, (...args: any[]): infer R, (...args: any[]): infer R } ? R :
+      T extends { (...args: any[]): infer R, (...args: any[]): infer R, (...args: any[]): infer R } ? R :
+        T extends { (...args: any[]): infer R, (...args: any[]): infer R } ? R :
+          T extends (...args: any[]) => infer R ? R : any
+type T1 = OverloadedReturnType<T0>
 
-//   return data
-// }
+async function toResolveURI(uri: URI): Promise<T1 | undefined | null | void> {
+  const fileUrl = uri.toString()
+
+  const [filePathErr, fileAbsolutePath] = await to(Promise.resolve(fileURLToPath(fileUrl)))
+  if (filePathErr || !fileAbsolutePath) {
+    return logger.error('resolve fileUrl error: ', filePathErr)
+  }
+
+  const [dimensionsErr, dimensions] = await to(Promise.resolve(imageSize(fileAbsolutePath)))
+  if (dimensionsErr || !dimensions) {
+    return logger.error('resolve fileAbsolutePath error: ', dimensionsErr)
+  }
+
+  return dimensions
+}
 
 const { activate, deactivate } = defineExtension(() => {
-  // Copy Image Fullname
-  useCommand('copy-image-size.copyImageFullname', async (uri) => {
-    const uriBasename = Utils.basename(uri)
-
-    const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(uriBasename)))
-    if (clipboardErr) {
-      return logger.error(clipboardErr)
-    }
-
-    window.showInformationMessage(`${uriBasename} copied!`)
-  })
-
   // Copy Image Size to Tailwindcss: w-[100px] h-[100px]
-  useCommand('copy-image-size.copyImageSizeToTailwind', async (uri) => {
-    const fileUrl = uri.toString()
+  useCommand('copy-image-size.copyImageSizeToTailwind', async (uri: URI) => {
+    const dimensions = await toResolveURI(uri)
 
-    const [filePathErr, fileAbsolutePath] = await to(Promise.resolve(fileURLToPath(fileUrl)))
-    if (filePathErr || !fileAbsolutePath) {
-      return logger.error(filePathErr)
-    }
-
-    const [dimensionsErr, dimensions] = await to(Promise.resolve(imageSize(fileAbsolutePath)))
-    if (dimensionsErr || !dimensions) {
-      return logger.error(dimensionsErr)
+    if (!dimensions) {
+      return window.showErrorMessage(`copyImageSizeToTailwind.toResolveURI(uri) is Error`)
     }
 
     // size-[]
@@ -60,6 +58,34 @@ const { activate, deactivate } = defineExtension(() => {
     }
 
     window.showInformationMessage(`w-[${dimensions?.width}px] h-[${dimensions?.height}px] copied!`)
+  })
+
+  // Copy Image Size to CSS: width: 100px height: 100px
+  useCommand('copy-image-size.copyImageSizeToCss', async (uri) => {
+    const dimensions = await toResolveURI(uri)
+
+    if (!dimensions) {
+      return window.showErrorMessage(`copyImageSizeToTailwind.toResolveURI(uri) is Error`)
+    }
+
+    const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(`width: ${dimensions?.width}px; height: ${dimensions?.height}px;`)))
+    if (clipboardErr) {
+      return logger.error(clipboardErr)
+    }
+
+    window.showInformationMessage(`width: ${dimensions?.width}px; height: ${dimensions?.height}px; copied!`)
+  })
+
+  // Copy Image Fullname
+  useCommand('copy-image-size.copyImageFullname', async (uri) => {
+    const uriBasename = Utils.basename(uri)
+
+    const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(uriBasename)))
+    if (clipboardErr) {
+      return logger.error(clipboardErr)
+    }
+
+    window.showInformationMessage(`${uriBasename} copied!`)
   })
 
   // Copy Image Ext
