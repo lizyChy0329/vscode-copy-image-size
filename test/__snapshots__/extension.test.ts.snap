@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`vscode-copy-image-size Command Tests > should execute the command successfully 1`] = `undefined`;
