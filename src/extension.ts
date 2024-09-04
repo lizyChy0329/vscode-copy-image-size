@@ -65,7 +65,7 @@ const { activate, deactivate } = defineExtension(() => {
     const dimensions = await toResolveURI(uri)
 
     if (!dimensions) {
-      return window.showErrorMessage(`copyImageSizeToTailwind.toResolveURI(uri) is Error`)
+      return window.showErrorMessage(`copyImageSizeToCSS.toResolveURI(uri) is Error`)
     }
 
     const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(`width: ${dimensions?.width}px; height: ${dimensions?.height}px;`)))
