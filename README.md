@@ -4,8 +4,9 @@
 <p align="center"><strong>⚡️📋 Copy Image Size for Tailwindcss or Unocss or CSS
 </strong></p>
 <p align=center>
-<a href="https://marketplace.visualstudio.com/items?itemName=mguellsegarra.highlight-on-copy"><img src="https://img.shields.io/visual-studio-marketplace/v/lizyChy0329.copy-image-size?label=Visual%20Studio%20Marketplace&color=%25234c1&link=https%3A%2F%2Fgithub.com%2FlizyChy0329%2Fvscode-copy-image-size
-"></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=mguellsegarra.highlight-on-copy">
+  <img src="https://img.shields.io/visual-studio-marketplace/v/lizyChy0329.copy-image-size?label=Visual%20Studio%20Marketplace&color=%25234c1&link=https%3A%2F%2Fgithub.com%2FlizyChy0329%2Fvscode-copy-image-size">
+</a>
 </p>
 
 <p align=center>
