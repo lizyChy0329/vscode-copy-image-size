@@ -1,38 +1,47 @@
-import { fileURLToPath } from 'node:url'
+import { lstatSync } from 'node:fs'
 import { defineExtension, useCommand } from 'reactive-vscode'
 import { env, window } from 'vscode'
-import { imageSize } from 'image-size'
 import type { URI } from 'vscode-uri'
 import { Utils } from 'vscode-uri'
 import to from 'await-to-js'
-// import { message } from './configs'
-import { logger } from './utils'
-
-type T0 = typeof imageSize
-type OverloadedReturnType<T> =
-    T extends { (...args: any[]): infer R, (...args: any[]): infer R, (...args: any[]): infer R, (...args: any[]): infer R } ? R :
-      T extends { (...args: any[]): infer R, (...args: any[]): infer R, (...args: any[]): infer R } ? R :
-        T extends { (...args: any[]): infer R, (...args: any[]): infer R } ? R :
-          T extends (...args: any[]) => infer R ? R : any
-type T1 = OverloadedReturnType<T0>
-
-async function toResolveURI(uri: URI): Promise<T1 | undefined | null | void> {
-  const fileUrl = uri.toString()
-
-  const [filePathErr, fileAbsolutePath] = await to(Promise.resolve(fileURLToPath(fileUrl)))
-  if (filePathErr || !fileAbsolutePath) {
-    return logger.error('resolve fileUrl error: ', filePathErr)
-  }
-
-  const [dimensionsErr, dimensions] = await to(Promise.resolve(imageSize(fileAbsolutePath)))
-  if (dimensionsErr || !dimensions) {
-    return logger.error('resolve fileAbsolutePath error: ', dimensionsErr)
-  }
-
-  return dimensions
-}
+import { logger, toResolveURI } from './utils'
+import { usePineConeWebviewView } from './webview'
 
 const { activate, deactivate } = defineExtension(() => {
+  // Open Image Dock
+  useCommand('copy-image-size.openImageDock', async (uri: URI) => {
+    logger.info(`PineCone Dock Start--------------------`)
+    logger.info(`uri: ${uri}`)
+
+    if (uri == null)
+      return
+
+    const stat = lstatSync(uri.fsPath)
+    if (!stat.isDirectory()) {
+      logger.error('Please select a dir!')
+      window.showErrorMessage('Please select a dir!')
+      return
+    }
+
+    const { message, postMessage } = usePineConeWebviewView(uri)
+
+    await postMessage('ji ni tai mei')
+    // const dimensions = await toResolveURI(uri)
+
+    // if (!dimensions) {
+    //   return window.showErrorMessage(`copyImageSizeToCSS.toResolveURI(uri) is Error`)
+    // }
+
+    // const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(`width: ${dimensions?.width}px; height: ${dimensions?.height}px;`)))
+    // if (clipboardErr) {
+    //   return logger.error(clipboardErr)
+    // }
+
+    window.showInformationMessage(message.value)
+
+    logger.info(`PineCone Dock End--------------------`)
+  })
+
   // Copy Image Size to Tailwindcss: w-[100px] h-[100px]
   useCommand('copy-image-size.copyImageSizeToTailwind', async (uri: URI) => {
     const dimensions = await toResolveURI(uri)

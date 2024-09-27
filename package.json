@@ -40,7 +40,29 @@
     "onStartupFinished"
   ],
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "pinecone-dock",
+          "title": "PineCone Image Dock",
+          "icon": "media/ion--images.svg"
+        }
+      ]
+    },
+    "views": {
+      "pinecone-dock": [
+        {
+          "id": "images-preview",
+          "name": "Preview",
+          "type": "webview"
+        }
+      ]
+    },
     "commands": [
+      {
+        "command": "copy-image-size.openImageDock",
+        "title": "Open Image Dock"
+      },
       {
         "command": "copy-image-size.copyImageSizeToTailwind",
         "title": "Copy Image Size to Tailwindcss"
@@ -60,6 +82,11 @@
     ],
     "menus": {
       "explorer/context": [
+        {
+          "command": "copy-image-size.openImageDock",
+          "group": "open-image-dock@01",
+          "when": "explorerResourceIsFolder"
+        },
         {
           "command": "copy-image-size.copyImageSizeToTailwind",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
