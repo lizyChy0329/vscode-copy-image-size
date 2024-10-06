@@ -1,9 +1,9 @@
 import { lstatSync, readdirSync } from 'node:fs'
 import { join, normalize, parse } from 'node:path'
 import type { Ref } from 'reactive-vscode'
-import { computed, createSingletonComposable, ref, useWebviewView } from 'reactive-vscode'
+import { computed, createSingletonComposable, extensionContext, ref, useWebviewPanel, useWebviewView } from 'reactive-vscode'
 import { URI } from 'vscode-uri'
-import { window } from 'vscode'
+import { Uri, ViewColumn } from 'vscode'
 import { logger } from './utils'
 
 interface PineConeWebviewViewReturnType {
@@ -69,23 +69,34 @@ export function usePineConeWebviewView(directoryUri: URI): PineConeWebviewViewRe
 
   return createSingletonComposable(() => {
     const message = ref('')
-    const html = computed(() => `
-      <script>
-        vscode = acquireVsCodeApi()
-        function updateMessage() {
-          vscode.postMessage({
-            type: 'updateMessage',
-            message: document.querySelector('input').value,
-          })
-        }
-      </script>
-      <p>${message.value}</p>
-      <p>${images}</p>
-      <div style="display:flex; flex-wrap:wrap;">
-        <input type="text" placeholder="Input Message" />
-        <button onclick="updateMessage()">Update Message</button>
-      </div>
-    `)
+
+    const { panel } = useWebviewPanel('images-preview', 'images-preview', ref(''), ViewColumn.One)
+
+    const jsFilePath
+			= Uri.joinPath(extensionContext.value!.extensionUri, 'views', 'target', 'assets', 'index.js')
+    const cssFilePath
+			= Uri.joinPath(extensionContext.value!.extensionUri, 'views', 'target', 'assets', 'index.css')
+
+    const jsUrl = panel.webview.asWebviewUri(jsFilePath).toString()
+    const cssUrl = panel.webview.asWebviewUri(cssFilePath).toString()
+
+    const html = computed(() => `<!DOCTYPE html>
+		<html lang="en" data-vscode-context='{"webviewSection": "editor", "preventDefaultContextMenuItems": true}'>
+		  <head>
+			<meta charset="UTF-8">
+			<link rel="icon" href="/favicon.ico">
+			
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Image Preview View</title>
+			
+			<script type="module" crossorigin src="${jsUrl}"></script>
+			
+			<link rel="stylesheet" href="${cssUrl}">
+		  </head>
+		  <body >
+			<div id="app"></div>
+		  </body>
+		</html>`)
 
     const { postMessage } = useWebviewView(
       'images-preview',
