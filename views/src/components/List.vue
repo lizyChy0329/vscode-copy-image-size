@@ -1,7 +1,22 @@
+<!-- eslint-disable ts/ban-ts-comment -->
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const list = ref(['https://loremflickr.com/320/240/dog', 'https://loremflickr.com/320/320/cat', 'https://loremflickr.com/320/320/bear', 'https://loremflickr.com/320/240/dog', 'https://loremflickr.com/320/320/cat', 'https://loremflickr.com/320/320/bear', 'https://loremflickr.com/320/240/dog', 'https://loremflickr.com/320/320/cat', 'https://loremflickr.com/320/320/bear', 'https://loremflickr.com/320/240/dog', 'https://loremflickr.com/320/320/cat', 'https://loremflickr.com/320/320/bear'])
+const vscode = acquireVsCodeApi()
+console.log(vscode)
+
+const list = ref([])
+const imagesData = ref()
+
+window.addEventListener('message', (e) => {
+  const receiveData = e.data
+
+  if (receiveData.type === 'initImages') {
+    imagesData.value = receiveData.data
+    list.value = receiveData.data.imagesData.imageVsCodePathList
+  }
+  console.log('🚀 ~ window.addEventListener ~ receiveData:', receiveData)
+})
 </script>
 
 <template>
@@ -22,9 +37,15 @@ const list = ref(['https://loremflickr.com/320/240/dog', 'https://loremflickr.co
     </div>
   </div>
 
+  <!-- Breadcrumbs -->
+  <div class="border-b-4 border-amber border-solid pb-4">
+    {{ imagesData }}
+  </div>
+
+  <!-- image dock -->
   <div grid grid-cols-2 justify-items-center gap-4 px-2 class="md:grid-cols-4 sm:grid-cols-3">
     <div v-for="imgItem of list" :key="imgItem" size-full flex flex-col items-center>
-      <div flex-1 cursor-pointer overflow-hidden rounded-1 bg-gray-300 class="hover:(ring-4 ring-amber)">
+      <div aspect-ratio-square flex-1 cursor-pointer overflow-hidden rounded-1 bg-gray-300 class="hover:(ring-3 ring-amber)">
         <img :src="imgItem" class="size-full object-contain">
       </div>
       <div w-full py-1>
@@ -33,7 +54,3 @@ const list = ref(['https://loremflickr.com/320/240/dog', 'https://loremflickr.co
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

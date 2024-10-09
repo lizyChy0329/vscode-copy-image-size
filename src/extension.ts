@@ -1,31 +1,51 @@
 import { lstatSync } from 'node:fs'
-import { defineExtension, useCommand } from 'reactive-vscode'
+import { basename } from 'node:path'
+import { defineExtension, useCommand, watchEffect } from 'reactive-vscode'
 import { env, window } from 'vscode'
 import type { URI } from 'vscode-uri'
 import { Utils } from 'vscode-uri'
 import to from 'await-to-js'
-import { logger, toResolveURI } from './utils'
+import { logger, toResolveURI, resolveImages } from './utils'
 import { usePineConeWebviewView } from './webview'
 
 const { activate, deactivate } = defineExtension(() => {
   // Open Image Dock
   useCommand('copy-image-size.openImageDock', async (uri: URI) => {
     logger.info(`PineCone Dock Start--------------------`)
-    logger.info(`uri: ${uri}`)
 
     if (uri == null)
       return
 
     const stat = lstatSync(uri.fsPath)
     if (!stat.isDirectory()) {
-      logger.error('Please select a dir!')
-      window.showErrorMessage('Please select a dir!')
+      window.showErrorMessage('Please select a directory!')
       return
     }
 
-    const { message, postMessage } = usePineConeWebviewView(uri)
+    const { message, postMessage, view } = usePineConeWebviewView()
 
-    await postMessage('ji ni tai mei')
+    logger.appendLine(`Create PineConeWebviewView Success`)
+
+    watchEffect(async () => {
+      if (view.value) {
+        const { imagePathList, imageVsCodePathList, basenameList } = await resolveImages(uri, view.value.webview);
+
+        const imagesData = {
+          imagePathList,
+          imageVsCodePathList,
+          basenameList
+        }
+
+        await postMessage({
+          type: 'initImages',
+          data: {
+            dirPath: uri,
+            dirBaseName: basename(view.value.webview.asWebviewUri(uri).toString()),
+            imagesData,
+          }
+        })
+      }
+    })
     // const dimensions = await toResolveURI(uri)
 
     // if (!dimensions) {
