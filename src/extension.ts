@@ -1,7 +1,7 @@
 import { lstatSync } from 'node:fs'
 import { basename } from 'node:path'
 import { defineExtension, useCommand, watchEffect } from 'reactive-vscode'
-import { env, window } from 'vscode'
+import { env, window, workspace } from 'vscode'
 import type { URI } from 'vscode-uri'
 import { Utils } from 'vscode-uri'
 import to from 'await-to-js'
@@ -25,6 +25,18 @@ const { activate, deactivate } = defineExtension(() => {
     const { message, postMessage, view } = usePineConeWebviewView()
 
     logger.appendLine(`Create PineConeWebviewView Success`)
+
+    function getDocumentWorkspaceFolder(): any {
+      const fileName = window.activeTextEditor
+      return {
+        fileName,
+        // workspaceFileName: workspace.workspaceFolders
+        // ?.map(folder => folder.uri.fsPath)
+        // .filter(fsPath => fileName?.startsWith(fsPath))[0]
+      }
+    }
+
+    logger.info(`getDocumentWorkspaceFolder - ${JSON.stringify(getDocumentWorkspaceFolder().fileName)}`)
 
     watchEffect(async () => {
       if (view.value) {
