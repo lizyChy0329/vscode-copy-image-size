@@ -32,38 +32,43 @@ const { activate, deactivate } = defineExtension(() => {
   useCommand('copy-image-size.openPineCone', async (uri: MaybeUriOrWebviewContext) => {
     logger.info(`PineCone Start--------------------`)
 
+    const { urix } = resolveVscodeOrWebviewUri(uri)
+    if (!urix) {
+      return window.showErrorMessage(`urix is undefinded`)
+    }
+
     if (uri == null) {
       return window.showErrorMessage('Please input uri')
     }
 
 
-    const stat = lstatSync(uri.fsPath)
+    const stat = lstatSync(urix.fsPath)
     if (!stat.isDirectory()) {
       window.showErrorMessage('Please select a directory')
       return
     }
 
     const { postMessage, view } = usePineConeWebviewView()
-    const currentWorkspaceFolder = workspace.getWorkspaceFolder(uri)
+    const currentWorkspaceFolder = workspace.getWorkspaceFolder(urix)
 
     if (!currentWorkspaceFolder) {
       window.showErrorMessage('Get Workspace Folder Fail')
       return
     }
 
-    const subAssetsPath = uri.path.split(currentWorkspaceFolder!.name)[1]
+    const subAssetsPath = urix.path.split(currentWorkspaceFolder!.name)[1]
     const currentAssetsPath = normalize(workspace!.workspaceFolders!.length > 1 ? `${currentWorkspaceFolder.name}${subAssetsPath}` : subAssetsPath)
 
     watchEffect(async () => {
       if (view.value) {
-        const imagesData = await resolveImages(uri, view.value.webview);
+        const imagesData = await resolveImages(urix, view.value.webview);
 
         await postMessage({
           type: 'initImages',
           data: {
             currentAssetsPath,
-            dirPath: uri,
-            dirBaseName: basename(view.value.webview.asWebviewUri(uri).toString()),
+            dirPath: urix,
+            dirBaseName: basename(view.value.webview.asWebviewUri(urix).toString()),
             imagesData,
           }
         })
@@ -150,7 +155,7 @@ const { activate, deactivate } = defineExtension(() => {
     if (!urix) {
       return window.showErrorMessage(`urix is undefinded`)
     }
-    
+
     const uriExtname = extname(uri.toString())
 
     const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(uriExtname)))

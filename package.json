@@ -44,7 +44,7 @@
       "activitybar": [
         {
           "id": "pinecone",
-          "title": "PineCone - Images Dock",
+          "title": "PineCone",
           "icon": "media/ion--images.svg"
         }
       ]
@@ -53,8 +53,9 @@
       "pinecone": [
         {
           "id": "pinecone",
-          "name": "Preview",
-          "type": "webview"
+          "name": "",
+          "type": "webview",
+          "contextualTitle": "Package Explorer"
         }
       ]
     },
@@ -112,12 +113,12 @@
         {
           "command": "copy-image-size.copyImageSizeToTailwind",
           "when": "webviewId == 'pinecone' && webviewSection == 'imgItem'",
-          "group": "1_edit@1"
+          "group": "1_copy@1"
         },
         {
           "command": "copy-image-size.copyImageSizeToCss",
           "when": "webviewId == 'pinecone' && webviewSection == 'imgItem'",
-          "group": "1_edit@2"
+          "group": "1_copy@2"
         }
       ]
     }
