@@ -1,56 +1,67 @@
 import { lstatSync } from 'node:fs'
-import { basename } from 'node:path'
+import { basename, normalize, extname } from 'node:path'
 import { defineExtension, useCommand, watchEffect } from 'reactive-vscode'
-import { env, window, workspace } from 'vscode'
-import type { URI } from 'vscode-uri'
-import { Utils } from 'vscode-uri'
+import { env, window, workspace, Uri } from 'vscode'
 import to from 'await-to-js'
 import { logger, toResolveURI, resolveImages } from './utils'
 import { usePineConeWebviewView } from './webview'
 
+type WebviewContext = {
+  preventDefaultContextMenuItems: boolean;
+  webview: string;
+  webviewSection: string;
+  selectedUri?: Uri;
+}
+type MaybeUriOrWebviewContext = Uri | WebviewContext;
+
+function resolveVscodeOrWebviewUri(uri: MaybeUriOrWebviewContext) {
+  let urix;
+  if (uri instanceof Uri) {
+    urix = uri
+  } else {
+    urix = uri.selectedUri
+  }
+
+  return {
+    urix
+  }
+}
+
 const { activate, deactivate } = defineExtension(() => {
   // Open Image Dock
-  useCommand('copy-image-size.openImageDock', async (uri: URI) => {
-    logger.info(`PineCone Dock Start--------------------`)
+  useCommand('copy-image-size.openPineCone', async (uri: MaybeUriOrWebviewContext) => {
+    logger.info(`PineCone Start--------------------`)
 
-    if (uri == null)
-      return
+    if (uri == null) {
+      return window.showErrorMessage('Please input uri')
+    }
+
 
     const stat = lstatSync(uri.fsPath)
     if (!stat.isDirectory()) {
-      window.showErrorMessage('Please select a directory!')
+      window.showErrorMessage('Please select a directory')
       return
     }
 
-    const { message, postMessage, view } = usePineConeWebviewView()
+    const { postMessage, view } = usePineConeWebviewView()
+    const currentWorkspaceFolder = workspace.getWorkspaceFolder(uri)
 
-    logger.appendLine(`Create PineConeWebviewView Success`)
-
-    function getDocumentWorkspaceFolder(): any {
-      const fileName = window.activeTextEditor
-      return {
-        fileName,
-        // workspaceFileName: workspace.workspaceFolders
-        // ?.map(folder => folder.uri.fsPath)
-        // .filter(fsPath => fileName?.startsWith(fsPath))[0]
-      }
+    if (!currentWorkspaceFolder) {
+      window.showErrorMessage('Get Workspace Folder Fail')
+      return
     }
 
-    logger.info(`getDocumentWorkspaceFolder - ${JSON.stringify(getDocumentWorkspaceFolder().fileName)}`)
+    const subAssetsPath = uri.path.split(currentWorkspaceFolder!.name)[1]
+    const currentAssetsPath = normalize(workspace!.workspaceFolders!.length > 1 ? `${currentWorkspaceFolder.name}${subAssetsPath}` : subAssetsPath)
 
     watchEffect(async () => {
       if (view.value) {
-        const { imagePathList, imageVsCodePathList, basenameList } = await resolveImages(uri, view.value.webview);
-
-        const imagesData = {
-          imagePathList,
-          imageVsCodePathList,
-          basenameList
-        }
+        const imagesData = await resolveImages(uri, view.value.webview);
 
         await postMessage({
           type: 'initImages',
           data: {
+            currentAssetsPath,
             dirPath: uri,
             dirBaseName: basename(view.value.webview.asWebviewUri(uri).toString()),
             imagesData,
@@ -58,25 +69,18 @@ const { activate, deactivate } = defineExtension(() => {
         })
       }
     })
-    // const dimensions = await toResolveURI(uri)
 
-    // if (!dimensions) {
-    //   return window.showErrorMessage(`copyImageSizeToCSS.toResolveURI(uri) is Error`)
-    // }
-
-    // const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(`width: ${dimensions?.width}px; height: ${dimensions?.height}px;`)))
-    // if (clipboardErr) {
-    //   return logger.error(clipboardErr)
-    // }
-
-    window.showInformationMessage(message.value)
-
-    logger.info(`PineCone Dock End--------------------`)
+    logger.info(`PineCone End--------------------`)
   })
 
   // Copy Image Size to Tailwindcss: w-[100px] h-[100px]
-  useCommand('copy-image-size.copyImageSizeToTailwind', async (uri: URI) => {
-    const dimensions = await toResolveURI(uri)
+  useCommand('copy-image-size.copyImageSizeToTailwind', async (uri: MaybeUriOrWebviewContext) => {
+    const { urix } = resolveVscodeOrWebviewUri(uri)
+    if (!urix) {
+      return window.showErrorMessage(`urix is undefinded`)
+    }
+
+    const dimensions = await toResolveURI(urix)
 
     if (!dimensions) {
       return window.showErrorMessage(`copyImageSizeToTailwind.toResolveURI(uri) is Error`)
@@ -99,11 +103,17 @@ const { activate, deactivate } = defineExtension(() => {
     }
 
     window.showInformationMessage(`w-[${dimensions?.width}px] h-[${dimensions?.height}px] copied!`)
+
   })
 
   // Copy Image Size to CSS: width: 100px height: 100px
-  useCommand('copy-image-size.copyImageSizeToCss', async (uri) => {
-    const dimensions = await toResolveURI(uri)
+  useCommand('copy-image-size.copyImageSizeToCss', async (uri: MaybeUriOrWebviewContext) => {
+    const { urix } = resolveVscodeOrWebviewUri(uri)
+    if (!urix) {
+      return window.showErrorMessage(`urix is undefinded`)
+    }
+
+    const dimensions = await toResolveURI(urix)
 
     if (!dimensions) {
       return window.showErrorMessage(`copyImageSizeToCSS.toResolveURI(uri) is Error`)
@@ -118,8 +128,13 @@ const { activate, deactivate } = defineExtension(() => {
   })
 
   // Copy Image Fullname
-  useCommand('copy-image-size.copyImageFullname', async (uri) => {
-    const uriBasename = Utils.basename(uri)
+  useCommand('copy-image-size.copyImageFullname', async (uri: MaybeUriOrWebviewContext) => {
+    const { urix } = resolveVscodeOrWebviewUri(uri)
+    if (!urix) {
+      return window.showErrorMessage(`urix is undefinded`)
+    }
+
+    const uriBasename = basename(uri.toString())
 
     const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(uriBasename)))
     if (clipboardErr) {
@@ -130,8 +145,13 @@ const { activate, deactivate } = defineExtension(() => {
   })
 
   // Copy Image Ext
-  useCommand('copy-image-size.copyImageExt', async (uri) => {
-    const uriExtname = Utils.extname(uri)
+  useCommand('copy-image-size.copyImageExt', async (uri: MaybeUriOrWebviewContext) => {
+    const { urix } = resolveVscodeOrWebviewUri(uri)
+    if (!urix) {
+      return window.showErrorMessage(`urix is undefinded`)
+    }
+    
+    const uriExtname = extname(uri.toString())
 
     const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(uriExtname)))
     if (clipboardErr) {

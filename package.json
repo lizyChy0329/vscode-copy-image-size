@@ -43,16 +43,16 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "pinecone-dock",
-          "title": "PineCone Image Dock",
+          "id": "pinecone",
+          "title": "PineCone - Images Dock",
           "icon": "media/ion--images.svg"
         }
       ]
     },
     "views": {
-      "pinecone-dock": [
+      "pinecone": [
         {
-          "id": "images-preview",
+          "id": "pinecone",
           "name": "Preview",
           "type": "webview"
         }
@@ -60,8 +60,8 @@
     },
     "commands": [
       {
-        "command": "copy-image-size.openImageDock",
-        "title": "Open Image Dock"
+        "command": "copy-image-size.openPineCone",
+        "title": "Open PineCone"
       },
       {
         "command": "copy-image-size.copyImageSizeToTailwind",
@@ -83,8 +83,8 @@
     "menus": {
       "explorer/context": [
         {
-          "command": "copy-image-size.openImageDock",
-          "group": "open-image-dock@01",
+          "command": "copy-image-size.openPineCone",
+          "group": "open-pinecone@01",
           "when": "explorerResourceIsFolder"
         },
         {
@@ -106,6 +106,18 @@
           "command": "copy-image-size.copyImageExt",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
           "group": "copy-image-size@20"
+        }
+      ],
+      "webview/context": [
+        {
+          "command": "copy-image-size.copyImageSizeToTailwind",
+          "when": "webviewId == 'pinecone' && webviewSection == 'imgItem'",
+          "group": "1_edit@1"
+        },
+        {
+          "command": "copy-image-size.copyImageSizeToCss",
+          "when": "webviewId == 'pinecone' && webviewSection == 'imgItem'",
+          "group": "1_edit@2"
         }
       ]
     }

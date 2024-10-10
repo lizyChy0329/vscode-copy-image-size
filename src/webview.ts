@@ -7,7 +7,7 @@ export const usePineConeWebviewView = createSingletonComposable(() => {
   const message = ref('')
 
   const { postMessage, view } = useWebviewView(
-    'images-preview',
+    'pinecone',
     ref(''),
     {
       retainContextWhenHidden: true,
@@ -35,7 +35,7 @@ export const usePineConeWebviewView = createSingletonComposable(() => {
       const cssUrl = view.value.webview.asWebviewUri(cssFilePath).toString()
 
       const html = computed(() => `<!DOCTYPE html>
-        <html lang="en" data-vscode-context='{"webviewSection": "editor", "preventDefaultContextMenuItems": true}'>
+        <html lang="en" data-vscode-context='{"webviewSection": "document","preventDefaultContextMenuItems": true}'>
           <head>
           <meta charset="UTF-8">
           <link rel="icon" href="/favicon.ico">

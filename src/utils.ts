@@ -1,9 +1,8 @@
 import { fileURLToPath } from 'node:url'
-import { basename, join, normalize, parse } from 'node:path'
+import { basename, join, normalize, parse, extname } from 'node:path'
 import { lstatSync, readdirSync } from 'node:fs'
 import { defineLogger } from 'reactive-vscode'
 import { imageSize } from 'image-size'
-import type { URI } from 'vscode-uri'
 import { Uri, Webview } from 'vscode'
 import to from 'await-to-js'
 
@@ -24,7 +23,7 @@ type T1 = OverloadedReturnType<T0>
  * @param {URI} uri
  * @returns {Promise<T1 | undefined | null | void>}
  */
-export async function toResolveURI(uri: URI): Promise<T1 | undefined | null | void> {
+export async function toResolveURI(uri: Uri): Promise<T1 | undefined | null | void> {
   const fileUrl = uri.toString()
 
   const [filePathErr, fileAbsolutePath] = await to(Promise.resolve(fileURLToPath(fileUrl)))
@@ -46,18 +45,16 @@ export async function toResolveURI(uri: URI): Promise<T1 | undefined | null | vo
 //  * @param depth
 //  * @param currentDepth
  */
-export async function resolveImages(dUri: URI, webview: Webview): Promise<{
-  imagePathList: string[]
-  imageVsCodePathList: string[]
-  basenameList: string[]
-}> {
+export async function resolveImages(dUri: Uri, webview: Webview): Promise<{
+  imageFileUri: Uri
+  imageVsCodePath: string
+  basename: string
+  extname: string
+}[]> {
   const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff']
   // const EXCLUDE_DIR = ['node_modules']
 
-  const imagePathList: string[] = []
-  const imageVsCodePathList: string[] = []
-  const basenameList: string[] = []
-
+  const dataList = [];
   // 检查当前深度是否超过限制
   // if (currentDepth > depth) {
   //   return filePaths
@@ -76,16 +73,15 @@ export async function resolveImages(dUri: URI, webview: Webview): Promise<{
     // 检查文件扩展名是否是图片格式
     const extension = parse(filePath)?.ext?.toLowerCase()
     if (IMAGE_EXTENSIONS.includes(extension.toLowerCase())) {
-      imagePathList.push(filePath)
-      imageVsCodePathList.push(webview.asWebviewUri(Uri.file(filePath)).toString())
-      basenameList.push(basename(filePath))
+      dataList.push({
+        imageFileUri: Uri.file(filePath),
+        imageVsCodePath: webview.asWebviewUri(Uri.file(filePath)).toString(),
+        basename: basename(filePath),
+        extname: extname(filePath)
+      })
     }
 
   }
   
-  return Promise.resolve({
-    imagePathList,
-    imageVsCodePathList,
-    basenameList
-  })
+  return Promise.resolve(dataList)
 }
