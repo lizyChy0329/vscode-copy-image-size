@@ -51,7 +51,7 @@ export async function resolveImages(dUri: Uri, webview: Webview): Promise<{
   basename: string
   extname: string
 }[]> {
-  const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff']
+  const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff','.svg']
   // const EXCLUDE_DIR = ['node_modules']
 
   const dataList = [];
