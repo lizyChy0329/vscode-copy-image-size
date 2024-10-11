@@ -1,6 +1,10 @@
 <!-- # Copy Image Size -->
 
-<h2 align="center"><img src="./icon.png" height="128" /><br />Copy Image Size</h2>
+<h2 align="center">
+  <img src="./icon.png" height="128" />
+  <br />
+  <span>Copy Image Size</span>
+</h2>
 <p align="center"><strong>⚡️📋 Copy Image Size for Tailwindcss or Unocss or CSS
 </strong></p>
 <p align=center>
@@ -13,6 +17,26 @@
 <img src="https://files.catbox.moe/nqvcb8.png" />
 </p>
 
-## Usege ⚡️
+## Base Usege ⚡️
 
-Right-click VSCode image file, Copy Image Size and translate to (Tailwind/Unocss) Utility or CSS Properties
+Right-click VSCode image file, Open PineCone Gallery or translate Image Size to (Tailwind/Unocss) Utility or CSS Properties
+
+## PineCone Gallery
+
+`PineCone Gallery` is a Image Gallery for vscode. Right-click the directory includes image files to create PineCone Gallery icon in activity bar.
+
+We recommend moving the PineCone Gallery icon to `Secondary Side Bar` for more convenient use.
+
+**How to use?**
+
+Right-click directory includes image files, select `Open PineCone Gallery`
+
+![Open PineCone Gallery](https://files.catbox.moe/c9gqqi.png)
+
+Select the `PineCone Gallery Icon` in `Activity Bar`
+
+![PineCone Gallery Icon](https://files.catbox.moe/xrfdld.png)
+
+Right-click the image item to copy size or copy name or everything else.
+
+![dd](https://files.catbox.moe/o1opql.png)
