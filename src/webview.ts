@@ -15,7 +15,7 @@ export const usePineConeWebviewView = createSingletonComposable(() => {
   const message = ref('')
 
   const { postMessage, view } = useWebviewView(
-    'pinecone',
+    '1_pineconeViews',
     ref(''),
     {
       retainContextWhenHidden: true,
@@ -33,6 +33,8 @@ export const usePineConeWebviewView = createSingletonComposable(() => {
   )
 
   watchEffect(() => {
+    console.log('view', view.value);
+    
     if (view.value) {
       const jsFilePath
         = Uri.joinPath(extensionContext.value!.extensionUri, 'views', 'target', 'assets', 'index.js')

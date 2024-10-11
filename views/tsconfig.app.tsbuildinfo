@@ -1,1 +1,1 @@
-{"root":["./src/main.ts","./src/vite-env.d.ts","./src/app.vue","./src/components/helloworld.vue","./src/components/list.vue"],"version":"5.6.2"}
+{"root":["./src/main.ts","./src/types.d.ts","./src/vite-env.d.ts","./src/app.vue","./src/components/helloworld.vue","./src/components/list.vue"],"version":"5.6.3"}
