@@ -40,7 +40,42 @@
     "onStartupFinished"
   ],
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "pinecone",
+          "title": "PineCone Gallery",
+          "icon": "media/i-pine-cone.svg"
+        }
+      ]
+    },
+    "views": {
+      "pinecone": [
+        {
+          "id": "1_pineconeViews",
+          "name": "",
+          "type": "webview",
+          "when": "copy-image-size.showPineConeGalleryIcon"
+        }
+      ]
+    },
     "commands": [
+      {
+        "command": "copy-image-size.openPineCone",
+        "title": "Open PineCone Gallery"
+      },
+      {
+        "command": "copy-image-size.openWithTextEditor",
+        "title": "Open"
+      },
+      {
+        "command": "copy-image-size.locateImage",
+        "title": "Location"
+      },
+      {
+        "command": "copy-image-size.openExplorerWithImage",
+        "title": "Explorer"
+      },
       {
         "command": "copy-image-size.copyImageSizeToTailwind",
         "title": "Copy Image Size to Tailwindcss"
@@ -50,16 +85,21 @@
         "title": "Copy Image Size to CSS"
       },
       {
-        "command": "copy-image-size.copyImageFullname",
-        "title": "Copy Image Fullname"
+        "command": "copy-image-size.copyImageBasename",
+        "title": "Copy Basename"
       },
       {
-        "command": "copy-image-size.copyImageExt",
-        "title": "Copy Image Ext"
+        "command": "copy-image-size.copyImageExtname",
+        "title": "Copy Extname"
       }
     ],
     "menus": {
       "explorer/context": [
+        {
+          "command": "copy-image-size.openPineCone",
+          "group": "copy-image-size.pinecone@01",
+          "when": "explorerResourceIsFolder"
+        },
         {
           "command": "copy-image-size.copyImageSizeToTailwind",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
@@ -69,16 +109,43 @@
           "command": "copy-image-size.copyImageSizeToCss",
           "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
           "group": "copy-image-size@02"
+        }
+      ],
+      "webview/context": [
+        {
+          "command": "copy-image-size.openWithTextEditor",
+          "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
+          "group": "1_commands@1"
         },
         {
-          "command": "copy-image-size.copyImageFullname",
-          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
-          "group": "copy-image-size@10"
+          "command": "copy-image-size.locateImage",
+          "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
+          "group": "1_commands@2"
         },
         {
-          "command": "copy-image-size.copyImageExt",
-          "when": "resourceExtname == .jpg || resourceExtname == .jpeg || resourceExtname == .png || resourceExtname == .gif || resourceExtname == .bmp || resourceExtname == .svg || resourceExtname == .webp || resourceExtname == .tiff",
-          "group": "copy-image-size@20"
+          "command": "copy-image-size.openExplorerWithImage",
+          "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
+          "group": "1_commands@3"
+        },
+        {
+          "command": "copy-image-size.copyImageSizeToTailwind",
+          "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
+          "group": "z_copy@1"
+        },
+        {
+          "command": "copy-image-size.copyImageSizeToCss",
+          "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
+          "group": "z_copy@2"
+        },
+        {
+          "command": "copy-image-size.copyImageBasename",
+          "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
+          "group": "z_copy@3"
+        },
+        {
+          "command": "copy-image-size.copyImageExtname",
+          "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
+          "group": "z_copy@4"
         }
       ]
     }
@@ -100,17 +167,17 @@
     "@types/node": "^18.19.45",
     "@types/vscode": "^1.82.0",
     "await-to-js": "^3.0.0",
-    "bumpp": "^9.5.2",
+    "bumpp": "^9.6.1",
     "clipboardy": "^4.0.0",
     "eslint-plugin-format": "^0.1.2",
     "image-size": "^1.1.1",
-    "jest-mock-vscode": "^4.0.1",
+    "jest-mock-vscode": "^4.0.2",
     "lint-staged": "^15.2.10",
-    "reactive-vscode": "^0.2.2",
+    "reactive-vscode": "^0.2.5",
     "simple-git-hooks": "^2.11.1",
-    "tsup": "^8.2.4",
-    "typescript": "^5.5.4",
-    "vitest": "^2.0.5",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1",
     "vscode-uri": "^3.0.8"
   },
   "simple-git-hooks": {
