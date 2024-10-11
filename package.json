@@ -3,7 +3,7 @@
   "name": "copy-image-size",
   "displayName": "Copy Image Size",
   "type": "module",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "packageManager": "pnpm@9.8.0",
   "description": "Copy Image Size for Tailwind or Unocss or CSS",
