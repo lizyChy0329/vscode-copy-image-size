@@ -12,9 +12,9 @@ const imagesDataFilter = computed(() => (vscodePostData.value.imagesData as Imag
 window.addEventListener('message', (e) => {
   const receiveData = e.data
 
-  if (receiveData.type === 'initImages') {
+  if (receiveData.type === 'initImages' || receiveData.type === 'updateImages') {
     vscodePostData.value = receiveData.data
-    console.log(receiveData.data)
+    console.log('🚀 ~ window.addEventListener ~ receiveData.data:', receiveData.data)
   }
 })
 </script>

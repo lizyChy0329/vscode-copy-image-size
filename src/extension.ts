@@ -1,51 +1,19 @@
-import { lstatSync } from 'node:fs'
 import { basename, normalize, extname } from 'node:path'
-import { defineExtension, useCommand, watchEffect } from 'reactive-vscode'
-import { env, window, workspace, Uri, commands, ViewColumn } from 'vscode'
+import { defineExtension, reactive, ref, useCommand, watch, watchEffect, useFsWatcher } from 'reactive-vscode'
+import { env, window, workspace, commands, ViewColumn } from 'vscode'
+import type { Uri } from 'vscode'
 import to from 'await-to-js'
-import { logger, toResolveURI, resolveImages } from './utils'
+import { logger, toResolveURI, resolveImages, resolveVscodeOrWebviewUri } from './utils'
 import { usePineConeWebviewView } from './webview'
+import type { MaybeUriOrWebviewContext } from './types.d.ts'
 
-type WebviewContext = {
-  preventDefaultContextMenuItems: boolean;
-  webview: string;
-  webviewSection: string;
-  selectedUri?: Uri;
-}
-type MaybeUriOrWebviewContext = Uri | WebviewContext;
-
-function resolveVscodeOrWebviewUri(uri: MaybeUriOrWebviewContext) {
-  let urix;
-  if (uri instanceof Uri) {
-    urix = uri
-  } else {
-    urix = uri.selectedUri
-  }
-
-  return {
-    urix
-  }
-}
 
 const { activate, deactivate } = defineExtension(() => {
-  /**
-   * Open PineCone Gallery
-   * Open
-   * Location
-   * Explorer
-   * Copy
-   * Delete
-   */
   useCommand('copy-image-size.openPineCone', async (uri: MaybeUriOrWebviewContext) => {
-    logger.clear()
-    logger.info(`---PineCone Create Start---`)
-
     const { urix } = resolveVscodeOrWebviewUri(uri)
     if (!urix) {
       return window.showErrorMessage(`urix is undefinded`)
     }
-
-    logger.info(`---ResolveVscodeOrWebviewUri success---`)
 
     commands.executeCommand('setContext', 'copy-image-size.showPineConeGalleryIcon', true);
 
@@ -61,23 +29,23 @@ const { activate, deactivate } = defineExtension(() => {
     const subAssetsPath = urix.path.split(currentWorkspaceFolder!.name)[1]
     const currentAssetsPath = normalize(workspace!.workspaceFolders!.length > 1 ? `${currentWorkspaceFolder.name}${subAssetsPath}` : subAssetsPath)
 
+    const vscode2Webview = async (type: string, urix: Uri, views: typeof view) => {
+      const imagesData = await resolveImages(urix, views.value!.webview);
+
+      await postMessage({
+        type,
+        data: {
+          currentAssetsPath,
+          dirPath: urix,
+          dirBaseName: basename(view.value!.webview.asWebviewUri(urix).toString()),
+          imagesData,
+        }
+      })
+    }
+
     watchEffect(async () => {
-      logger.info(`---PineConeWebviewView Status: ${view.value}---`)
-
       if (view.value) {
-        logger.info(`---PineConeWebviewView Create Success---`)
-
-        const imagesData = await resolveImages(urix, view.value.webview);
-
-        await postMessage({
-          type: 'initImages',
-          data: {
-            currentAssetsPath,
-            dirPath: urix,
-            dirBaseName: basename(view.value.webview.asWebviewUri(urix).toString()),
-            imagesData,
-          }
-        })
+        vscode2Webview('initImages', urix, view)
 
         // focus to Activitybar pinecone icon
         commands.executeCommand("1_pineconeViews.focus", {
@@ -86,7 +54,29 @@ const { activate, deactivate } = defineExtension(() => {
       }
     })
 
-    logger.info(`---PineCone Create End---`)
+    // register fs watcher
+    const readyToUpdate = ref(false);
+    const globs = reactive(new Set([`**/${currentAssetsPath.replace(/\\/g, '/').slice(1)}/*`]))
+    const watcher = useFsWatcher(globs)
+    watcher.onDidCreate(() => {
+      readyToUpdate.value = true
+    })
+    watcher.onDidChange(() => {
+      readyToUpdate.value = true
+    })
+    watcher.onDidDelete(() => {
+      readyToUpdate.value = true
+    })
+
+    watch(readyToUpdate, async (newVal) => {
+      if (newVal) {
+        setTimeout(async () => {
+          vscode2Webview('updateImages', urix, view)
+        }, 500);
+
+        readyToUpdate.value = false
+      }
+    })
   })
 
   /**
@@ -103,7 +93,6 @@ const { activate, deactivate } = defineExtension(() => {
     if (openImageErr) {
       return logger.error(openImageErr)
     }
-
   })
 
   // locate the webview Image
@@ -204,8 +193,6 @@ const { activate, deactivate } = defineExtension(() => {
     if (clipboardErr) {
       return logger.error(clipboardErr)
     }
-
-    // window.showInformationMessage(`${uriBasename} copied!`)
   })
 
   // Copy Image Extname
@@ -221,8 +208,6 @@ const { activate, deactivate } = defineExtension(() => {
     if (clipboardErr) {
       return logger.error(clipboardErr)
     }
-
-    // window.showInformationMessage(`${uriExtname} copied!`)
   })
 })
 

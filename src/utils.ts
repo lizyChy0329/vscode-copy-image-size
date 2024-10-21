@@ -5,6 +5,7 @@ import { defineLogger } from 'reactive-vscode'
 import { imageSize } from 'image-size'
 import { Uri, Webview } from 'vscode'
 import to from 'await-to-js'
+import type { MaybeUriOrWebviewContext } from './types.d.ts'
 
 export const logger = defineLogger('Copy Image Size')
 
@@ -84,4 +85,17 @@ export async function resolveImages(dUri: Uri, webview: Webview): Promise<{
   }
   
   return Promise.resolve(dataList)
+}
+
+export function resolveVscodeOrWebviewUri(uri: MaybeUriOrWebviewContext) {
+  let urix;
+  if (uri instanceof Uri) {
+    urix = uri
+  } else {
+    urix = uri.selectedUri
+  }
+
+  return {
+    urix
+  }
 }
