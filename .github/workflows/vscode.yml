@@ -1,0 +1,39 @@
+name: Push To VScode
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    permissions:
+      id-token: write
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - run: corepack enable
+
+      - name: Set node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install Dependencies
+        run: pnpm i --no-frozen-lockfile
+
+      - name: PNPM build
+        run: pnpm run build
+
+      - name: Publish to VSCE
+        run: pnpm dlx @vscode/vsce publish -p ${{secrets.VSCE_TOKEN}} --no-dependencies
+        env:
+          VSCE_TOKEN: ${{secrets.VSCE_TOKEN}}
