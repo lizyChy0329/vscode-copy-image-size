@@ -1,10 +1,26 @@
 <!-- eslint-disable ts/ban-ts-comment -->
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import type { Ref } from 'vue'
+import { computed, defineProps } from 'vue'
 
 const props = defineProps<{
   data: ImagesData
+  size: PineConeImageSize
 }>()
+
+const gridRepeatMode = computed(() => {
+  switch (props.size) {
+    case 'small':
+      return 'grid-cols-[repeat(auto-fit,minmax(60px,1fr))]'
+    case 'medium':
+      return 'grid-cols-[repeat(auto-fit,minmax(80px,1fr))]'
+    case 'large':
+      return 'grid-cols-[repeat(auto-fit,minmax(120px,1fr))]'
+
+    default:
+      return ''
+  }
+})
 
 // console.log(props)
 
@@ -79,7 +95,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="grid grid-cols-[repeat(auto-fit,minmax(54px,1fr))] justify-items-center gap-3">
+  <div class="grid justify-items-center gap-3" :class="gridRepeatMode">
     <div
       v-for="path of props.data" :key="path.basename" :data-vscode-context="JSON.stringify({ webviewSection: 'imgItem', preventDefaultContextMenuItems: true, selectedUri: path.imageFileUri })" size-full flex flex-col items-center
     >

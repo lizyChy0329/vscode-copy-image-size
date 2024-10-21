@@ -17,6 +17,8 @@ window.addEventListener('message', (e) => {
     console.log('🚀 ~ window.addEventListener ~ receiveData.data:', receiveData.data)
   }
 })
+
+const imageSize = ref<PineConeImageSize>('medium')
 </script>
 
 <template>
@@ -26,13 +28,25 @@ window.addEventListener('message', (e) => {
         <input v-model="search" type="text" placeholder="我是输入框" class="w-full rounded-1 bg-gray-100 bg-gray-300 px-2 py-1 text-gray-600">
       </div>
       <div flex shrink-0 items-center text-white space-x-1>
-        <div flex items-center justify-center rounded-1 bg-amber p-1 leading-none>
+        <div
+          flex cursor-pointer items-center justify-center rounded-1 p-1 leading-none
+          :class="[imageSize === 'small' ? 'bg-amber' : 'bg-gray-300']"
+          @click="imageSize = 'small'"
+        >
           I
         </div>
-        <div flex items-center justify-center rounded-1 bg-emerald p-1 leading-none>
+        <div
+          flex cursor-pointer items-center justify-center rounded-1 bg-emerald p-1 leading-none
+          :class="[imageSize === 'medium' ? 'bg-emerald' : 'bg-gray-300']"
+          @click="imageSize = 'medium'"
+        >
           K
         </div>
-        <div flex items-center justify-center rounded-1 bg-fuchsia p-1 leading-none>
+        <div
+          flex cursor-pointer items-center justify-center rounded-1 p-1 leading-none
+          :class="[imageSize === 'large' ? 'bg-fuchsia' : 'bg-gray-300']"
+          @click="imageSize = 'large'"
+        >
           UN
         </div>
       </div>
@@ -43,6 +57,6 @@ window.addEventListener('message', (e) => {
       {{ vscodePostData.currentAssetsPath }} ({{ vscodePostData.imagesData.length }})
     </div>
 
-    <List :data="imagesDataFilter" />
+    <List :data="imagesDataFilter" :size="imageSize" />
   </div>
 </template>
