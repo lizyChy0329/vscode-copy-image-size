@@ -5,10 +5,81 @@ import { defineProps } from 'vue'
 const props = defineProps<{
   data: ImagesData
 }>()
+
+// console.log(props)
+
+// const testImages: ImagesData = [
+//   {
+//     basename: '1.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+//   {
+//     basename: '2.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+//   {
+//     basename: '2.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+//   {
+//     basename: '3.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+//   {
+//     basename: '4.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+//   {
+//     basename: '5.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+//   {
+//     basename: '6.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+//   {
+//     basename: '7.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+//   {
+//     basename: '8.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+//   {
+//     basename: '9.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+//   {
+//     basename: '10.png',
+//     extname: '.png',
+//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
+//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
+//   },
+// ]
 </script>
 
 <template>
-  <div grid grid-cols-2 min-w-38 justify-items-center gap-4 px-2 class="md:grid-cols-4 sm:grid-cols-3">
+  <div class="grid grid-cols-[repeat(auto-fit,minmax(54px,1fr))] justify-items-center gap-3">
     <div
       v-for="path of props.data" :key="path.basename" :data-vscode-context="JSON.stringify({ webviewSection: 'imgItem', preventDefaultContextMenuItems: true, selectedUri: path.imageFileUri })" size-full flex flex-col items-center
     >

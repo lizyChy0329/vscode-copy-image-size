@@ -25,7 +25,7 @@ window.addEventListener('message', (e) => {
       <div flex-1>
         <input v-model="search" type="text" placeholder="我是输入框" class="w-full rounded-1 bg-gray-100 bg-gray-300 px-2 py-1 text-gray-600">
       </div>
-      <div flex shrink-0 items-center space-x-1>
+      <div flex shrink-0 items-center text-white space-x-1>
         <div flex items-center justify-center rounded-1 bg-amber p-1 leading-none>
           I
         </div>
