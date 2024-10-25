@@ -5,25 +5,10 @@ import type { PineConeImageSize } from '../types'
 import { computed, defineProps } from 'vue'
 import { imageListMock } from '../schema.ts'
 
-// const props = withDefaults(defineProps<{
-//   data: ImageListData
-//   size: PineConeImageSize
-// }>(), {
-//   data: imageListMock,
-//   size: 'medium',
-// })
-// const props = withDefaults(, {
-//   data: () => imageListMock,
-//   size: 'medium',
-// })
-
 const { data = imageListMock, size = 'medium' } = defineProps<{
   data?: ImageListData
   size?: PineConeImageSize
 }>()
-
-// basename: '1.png',
-// extname: '.png'
 
 const gridRepeatMode = computed(() => {
   switch (size) {

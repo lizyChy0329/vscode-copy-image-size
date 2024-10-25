@@ -1,4 +1,4 @@
-declare type ImagesData = {
+export type ImagesData = {
   imageFileUri: string
   imageVsCodePath: string
   basename: string
