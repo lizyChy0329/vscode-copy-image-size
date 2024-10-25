@@ -5,4 +5,4 @@ declare type ImagesData = {
   extname: string
 }[]
 
-declare type PineConeImageSize = 'small' | 'medium' | 'large'
+export type PineConeImageSize = 'small' | 'medium' | 'large'
