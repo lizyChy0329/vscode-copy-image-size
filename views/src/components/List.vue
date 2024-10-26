@@ -1,15 +1,17 @@
 <!-- eslint-disable ts/ban-ts-comment -->
 <script setup lang="ts">
-import type { Ref } from 'vue'
+import type { ImageListData } from '../schema.ts'
+import type { PineConeImageSize } from '../types'
 import { computed, defineProps } from 'vue'
+import { imageListMock } from '../schema.ts'
 
-const props = defineProps<{
-  data: ImagesData
-  size: PineConeImageSize
+const { data = imageListMock, size = 'medium' } = defineProps<{
+  data?: ImageListData
+  size?: PineConeImageSize
 }>()
 
 const gridRepeatMode = computed(() => {
-  switch (props.size) {
+  switch (size) {
     case 'small':
       return 'grid-cols-[repeat(auto-fit,minmax(60px,1fr))]'
     case 'medium':
@@ -21,83 +23,12 @@ const gridRepeatMode = computed(() => {
       return ''
   }
 })
-
-// console.log(props)
-
-// const testImages: ImagesData = [
-//   {
-//     basename: '1.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-//   {
-//     basename: '2.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-//   {
-//     basename: '2.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-//   {
-//     basename: '3.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-//   {
-//     basename: '4.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-//   {
-//     basename: '5.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-//   {
-//     basename: '6.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-//   {
-//     basename: '7.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-//   {
-//     basename: '8.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-//   {
-//     basename: '9.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-//   {
-//     basename: '10.png',
-//     extname: '.png',
-//     imageFileUri: 'file:///C:/Users/Administrator/Desktop/1.png',
-//     imageVsCodePath: 'https://dummyjson.com/image/400x200/008080/ffffff?text=Hello+Peter!&fontSize=16',
-//   },
-// ]
 </script>
 
 <template>
-  <div class="grid justify-items-center gap-3" :class="gridRepeatMode">
+  <div class="grid w-full justify-items-center gap-3" :class="gridRepeatMode">
     <div
-      v-for="path of props.data" :key="path.basename" :data-vscode-context="JSON.stringify({ webviewSection: 'imgItem', preventDefaultContextMenuItems: true, selectedUri: path.imageFileUri })" size-full flex flex-col items-center
+      v-for="path of data" :key="path.basename" :data-vscode-context="JSON.stringify({ webviewSection: 'imgItem', preventDefaultContextMenuItems: true, selectedUri: path.imageFileUri })" size-full flex flex-col items-center
     >
       <div relative aspect-ratio-square flex-1 cursor-pointer overflow-hidden rounded-1 bg-gray-300 class="max-w-30 min-w-16 hover:(ring-3 ring-amber)">
         <img :src="path.imageVsCodePath" class="size-full rounded-1 object-contain" :alt="path.basename">
