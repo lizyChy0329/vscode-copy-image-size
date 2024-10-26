@@ -32,7 +32,7 @@ window.addEventListener('message', (e) => {
     <SearchBar />
 
     <div w-full space-y-2>
-      <div border-b-2 border-amber border-solid pb-2 class="text-base sm:text-lg">
+      <div v-if="!isLandscape" border-b-2 border-amber border-solid pb-2 class="text-base sm:text-lg">
         {{ vscodePostData.currentAssetsPath }} ({{ vscodePostData.imagesData.length }})
       </div>
       <List :data="imagesDataFilter" :size="imageSize" />

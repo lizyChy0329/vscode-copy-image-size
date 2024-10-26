@@ -14,7 +14,7 @@ import SearchBar from './SearchBar.vue'
     <SearchBar />
 
     <div w-full space-y-2>
-      <div border-b-4 border-b-amber px-2>
+      <div v-if="!isLandscape" border-b-4 border-b-amber px-2>
         \assets\pinecone\dotcatCollection
       </div>
       <List :size="imageSize" />
