@@ -10,41 +10,41 @@ const { data = imageListMock, size = 'medium' } = defineProps<{
   size?: PineConeImageSize
 }>()
 
-// const gridRepeatMode = computed(() => {
-//   switch (size) {
-//     case 'small':
-//       return 'grid-cols-[repeat(auto-fit,minmax(60px,1fr))]'
-//     case 'medium':
-//       return 'grid-cols-[repeat(auto-fit,minmax(80px,1fr))]'
-//     case 'large':
-//       return 'grid-cols-[repeat(auto-fit,minmax(120px,1fr))]'
-
-//     default:
-//       return ''
-//   }
-// })
 const gridRepeatMode = computed(() => {
   switch (size) {
     case 'small':
-      return 'size-60px'
+      return 'grid-cols-[repeat(auto-fit,minmax(60px,1fr))]'
     case 'medium':
-      return 'size-80px'
+      return 'grid-cols-[repeat(auto-fit,minmax(80px,1fr))]'
     case 'large':
-      return 'size-100px'
+      return 'grid-cols-[repeat(auto-fit,minmax(120px,1fr))]'
 
     default:
       return ''
   }
 })
+// const gridRepeatMode = computed(() => {
+//   switch (size) {
+//     case 'small':
+//       return 'size-60px'
+//     case 'medium':
+//       return 'size-80px'
+//     case 'large':
+//       return 'size-100px'
+
+//     default:
+//       return ''
+//   }
+// })
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-2">
+  <div class="grid justify-items-center gap-3" :class="gridRepeatMode">
     <div
       v-for="path of data" :key="path.basename" :data-vscode-context="JSON.stringify({ webviewSection: 'imgItem', preventDefaultContextMenuItems: true, selectedUri: path.imageFileUri })"
     >
       <!-- image -->
-      <div relative aspect-ratio-square cursor-pointer overflow-hidden rounded-1 bg-gray-300 class="max-w-30 min-w-16 hover:(ring-3 ring-amber)" :class="gridRepeatMode">
+      <div relative aspect-ratio-square cursor-pointer overflow-hidden rounded-1 bg-gray-300 class="max-w-30 min-w-16 hover:(ring-3 ring-amber)">
         <img :src="path.imageVsCodePath" class="size-full object-contain" :alt="path.basename">
 
         <span absolute bottom-0 right-0 rounded-tl-1 px-1 py-0 class="bg-gray-700/70 text-white leading-tight">{{ path.extname }}</span>
