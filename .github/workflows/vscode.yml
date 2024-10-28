@@ -1,11 +1,8 @@
-name: Push To VScode
+name: Push To VScode Manually
 
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*'
 
 jobs:
   release:
