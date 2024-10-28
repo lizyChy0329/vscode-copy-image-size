@@ -2,6 +2,13 @@
 import { imageSize, isLandscape, search } from '../state'
 import SearchBarLandscape from './SearchBarLandscape.vue'
 import SearchBarPortrait from './SearchBarPortrait.vue'
+
+if (isLandscape.value) {
+  imageSize.value = 'small'
+}
+else {
+  imageSize.value = 'medium'
+}
 </script>
 
 <template>
