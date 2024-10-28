@@ -25,7 +25,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Dependencies
-        run: pnpm i --no-frozen-lockfile
+        run: pnpm i --frozen-lockfile
 
       - name: Lint Staged
         run: pnpm lint-staged
