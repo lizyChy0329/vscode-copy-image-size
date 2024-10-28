@@ -1,12 +1,10 @@
 name: autofix.ci
 
 on:
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-  # push:
-  # pull_request:
-  #   branches:
-  #     - main
+  push:
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
