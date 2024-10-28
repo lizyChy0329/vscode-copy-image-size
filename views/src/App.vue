@@ -10,7 +10,7 @@ import { imageSize, isLandscape } from './state'
 const vscodePostData = ref()
 
 const search = ref('')
-const imagesDataFilter = computed(() => (vscodePostData.value.imagesData as ImagesData).filter(imageData => imageData.basename.includes(search.value)))
+const imagesDataFilter = computed(() => (vscodePostData.value?.imagesData as ImagesData)?.filter(imageData => imageData.basename.includes(search.value)))
 
 window.addEventListener('message', (e) => {
   const receiveData = e.data
@@ -23,7 +23,6 @@ window.addEventListener('message', (e) => {
 
 <template>
   <div
-    v-if="vscodePostData"
     flex="~" space-y-4 :class="{
       'flex-row': isLandscape,
       'flex-col': !isLandscape,
@@ -32,7 +31,7 @@ window.addEventListener('message', (e) => {
     <SearchBar />
 
     <div w-full space-y-2>
-      <div v-if="!isLandscape" border-b-2 border-amber border-solid pb-2 class="text-base sm:text-lg">
+      <div v-if="!isLandscape && vscodePostData" border-b-2 border-amber border-solid pb-2 class="text-base sm:text-lg">
         {{ vscodePostData.currentAssetsPath }} ({{ vscodePostData.imagesData.length }})
       </div>
       <List :data="imagesDataFilter" :size="imageSize" />
