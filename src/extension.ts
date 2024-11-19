@@ -1,5 +1,5 @@
 import { basename, normalize, extname } from 'node:path'
-import { defineExtension, reactive, ref, useCommand, watch, watchEffect, useFsWatcher } from 'reactive-vscode'
+import { defineExtension, reactive, ref, useCommand, watch, watchEffect, useFsWatcher, createSingletonComposable } from 'reactive-vscode'
 import { env, window, workspace, commands, ViewColumn } from 'vscode'
 import type { Uri } from 'vscode'
 import to from 'await-to-js'
@@ -57,14 +57,14 @@ const { activate, deactivate } = defineExtension(() => {
     // register fs watcher
     const readyToUpdate = ref(false);
     const globs = reactive(new Set([`**/${currentAssetsPath.replace(/\\/g, '/').slice(1)}/*`]))
-    const watcher = useFsWatcher(globs)
-    watcher.onDidCreate(() => {
+    const watcher = createSingletonComposable(() => useFsWatcher(globs))
+    watcher().onDidCreate(() => {
       readyToUpdate.value = true
     })
-    watcher.onDidChange(() => {
+    watcher().onDidChange(() => {
       readyToUpdate.value = true
     })
-    watcher.onDidDelete(() => {
+    watcher().onDidDelete(() => {
       readyToUpdate.value = true
     })
 
