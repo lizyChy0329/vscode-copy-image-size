@@ -174,7 +174,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^3.9.2",
     "@types/node": "^18.19.45",
-    "@types/vscode": "^1.92.0",
+    "@types/vscode": "^1.82.0",
     "await-to-js": "^3.0.0",
     "bumpp": "^9.8.1",
     "clipboardy": "^4.0.0",
