@@ -5,7 +5,7 @@ import List from './components/List.vue'
 import SearchBar from './components/SearchBar.vue'
 import { imageSize, isLandscape } from './state'
 
-// const { window, workspace } = acquireVsCodeApi()
+// const { setState, getState } = acquireVsCodeApi()
 
 const vscodePostData = ref()
 

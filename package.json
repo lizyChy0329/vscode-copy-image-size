@@ -89,6 +89,10 @@
         "title": "Copy Basename"
       },
       {
+        "command": "copy-image-size.copyImageFilename",
+        "title": "Copy Filename"
+      },
+      {
         "command": "copy-image-size.copyImageExtname",
         "title": "Copy Extname"
       }
@@ -143,9 +147,14 @@
           "group": "z_copy@3"
         },
         {
-          "command": "copy-image-size.copyImageExtname",
+          "command": "copy-image-size.copyImageFilename",
           "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
           "group": "z_copy@4"
+        },
+        {
+          "command": "copy-image-size.copyImageExtname",
+          "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
+          "group": "z_copy@5"
         }
       ]
     }
