@@ -17,8 +17,8 @@ devDependencies:
     specifier: ^18.19.45
     version: 18.19.57
   '@types/vscode':
-    specifier: ^1.92.0
-    version: 1.92.0
+    specifier: ^1.82.0
+    version: 1.82.0
   await-to-js:
     specifier: ^3.0.0
     version: 3.0.0
@@ -36,13 +36,13 @@ devDependencies:
     version: 1.1.1
   jest-mock-vscode:
     specifier: ^4.0.2
-    version: 4.0.2(@types/vscode@1.92.0)
+    version: 4.0.2(@types/vscode@1.82.0)
   lint-staged:
     specifier: ^15.2.10
     version: 15.2.10
   reactive-vscode:
     specifier: ^0.2.8
-    version: 0.2.8(@types/vscode@1.92.0)
+    version: 0.2.8(@types/vscode@1.82.0)
   simple-git-hooks:
     specifier: ^2.11.1
     version: 2.11.1
@@ -995,8 +995,8 @@ packages:
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
     dev: true
 
-  /@types/vscode@1.92.0:
-    resolution: {integrity: sha512-DcZoCj17RXlzB4XJ7IfKdPTcTGDLYvTOcTNkvtjXWF+K2TlKzHHkBEXNWQRpBIXixNEUgx39cQeTFunY0E2msw==}
+  /@types/vscode@1.82.0:
+    resolution: {integrity: sha512-VSHV+VnpF8DEm8LNrn8OJ8VuUNcBzN3tMvKrNpbhhfuVjFm82+6v44AbDhLvVFgCzn6vs94EJNTp7w8S6+Q1Rw==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@8.15.0(@typescript-eslint/parser@8.15.0)(typescript@5.6.3):
@@ -2583,13 +2583,13 @@ packages:
       '@pkgjs/parseargs': 0.11.0
     dev: true
 
-  /jest-mock-vscode@4.0.2(@types/vscode@1.92.0):
+  /jest-mock-vscode@4.0.2(@types/vscode@1.82.0):
     resolution: {integrity: sha512-Vs/b0jPyECd5G3iJLSh2Kuw+p1zeL0Ea2+LPxeTyqjaEvd53Ex4IuABM6Owvx92Q7PunWFMZ7hX+xqEkTfPpcw==}
     engines: {node: '>16.0.0'}
     peerDependencies:
       '@types/vscode': ^1.90.0
     dependencies:
-      '@types/vscode': 1.92.0
+      '@types/vscode': 1.82.0
       vscode-uri: 3.0.8
     dev: true
 
@@ -3523,13 +3523,13 @@ packages:
       destr: 2.0.3
     dev: true
 
-  /reactive-vscode@0.2.8(@types/vscode@1.92.0):
+  /reactive-vscode@0.2.8(@types/vscode@1.82.0):
     resolution: {integrity: sha512-x//CUHnWS7W6znrIdZ/NXimTmpvbX66GPmhX8TU89weLzd79uTYhbbpsAFLfTn+CPtUrmy7N1Wpx3faLd499Qg==}
     peerDependencies:
       '@types/vscode': ^1.89.0
     dependencies:
       '@reactive-vscode/reactivity': 0.2.8
-      '@types/vscode': 1.92.0
+      '@types/vscode': 1.82.0
     dev: true
 
   /read-pkg-up@7.0.1:
