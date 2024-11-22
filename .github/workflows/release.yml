@@ -35,11 +35,13 @@ jobs:
       - name: PNPM build
         run: pnpm run build
 
+      - run: pnpm dlx changelogithub
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
       - name: Publish to VSCE
         run: pnpm dlx @vscode/vsce publish -p ${{secrets.VSCE_TOKEN}} --no-dependencies
         env:
           VSCE_TOKEN: ${{secrets.VSCE_TOKEN}}
 
-      - run: pnpm dlx changelogithub
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      
