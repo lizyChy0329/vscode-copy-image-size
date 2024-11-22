@@ -1,5 +1,5 @@
 import { basename, normalize, extname } from 'node:path'
-import { defineExtension, reactive, ref, useCommand, watch, watchEffect, useFsWatcher } from 'reactive-vscode'
+import { defineExtension, reactive, ref, useCommand, watch, watchEffect, useFsWatcher, createSingletonComposable } from 'reactive-vscode'
 import { env, window, workspace, commands, ViewColumn } from 'vscode'
 import type { Uri } from 'vscode'
 import to from 'await-to-js'
@@ -18,8 +18,8 @@ const { activate, deactivate } = defineExtension(() => {
     commands.executeCommand('setContext', 'copy-image-size.showPineConeGalleryIcon', true);
 
     const { postMessage, view } = usePineConeWebviewView()
-    const currentWorkspaceFolder = workspace.getWorkspaceFolder(urix)
 
+    const currentWorkspaceFolder = workspace.getWorkspaceFolder(urix)
     if (!currentWorkspaceFolder) {
       commands.executeCommand('setContext', 'copy-image-size.showPineConeGalleryIcon', false);
       window.showErrorMessage('Get Workspace Folder Fail')
@@ -57,14 +57,14 @@ const { activate, deactivate } = defineExtension(() => {
     // register fs watcher
     const readyToUpdate = ref(false);
     const globs = reactive(new Set([`**/${currentAssetsPath.replace(/\\/g, '/').slice(1)}/*`]))
-    const watcher = useFsWatcher(globs)
-    watcher.onDidCreate(() => {
+    const watcher = createSingletonComposable(() => useFsWatcher(globs))
+    watcher().onDidCreate(() => {
       readyToUpdate.value = true
     })
-    watcher.onDidChange(() => {
+    watcher().onDidChange(() => {
       readyToUpdate.value = true
     })
-    watcher.onDidDelete(() => {
+    watcher().onDidDelete(() => {
       readyToUpdate.value = true
     })
 
@@ -72,7 +72,7 @@ const { activate, deactivate } = defineExtension(() => {
       if (newVal) {
         setTimeout(async () => {
           vscode2Webview('updateImages', urix, view)
-        }, 500);
+        }, 300);
 
         readyToUpdate.value = false
       }
@@ -190,6 +190,22 @@ const { activate, deactivate } = defineExtension(() => {
     const uriBasename = basename(urix.toString())
 
     const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(uriBasename)))
+    if (clipboardErr) {
+      return logger.error(clipboardErr)
+    }
+  })
+
+  // Copy Image Basename
+  useCommand('copy-image-size.copyImageFilename', async (uri: MaybeUriOrWebviewContext) => {
+    const { urix } = resolveVscodeOrWebviewUri(uri)
+    if (!urix) {
+      return window.showErrorMessage(`urix is undefinded`)
+    }
+
+    const uriExtname = extname(urix.toString())
+    const filename = basename(urix.toString(), uriExtname)
+
+    const [clipboardErr] = await to(Promise.resolve(env.clipboard.writeText(filename)))
     if (clipboardErr) {
       return logger.error(clipboardErr)
     }

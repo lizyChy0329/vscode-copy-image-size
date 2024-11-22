@@ -89,6 +89,10 @@
         "title": "Copy Basename"
       },
       {
+        "command": "copy-image-size.copyImageFilename",
+        "title": "Copy Filename"
+      },
+      {
         "command": "copy-image-size.copyImageExtname",
         "title": "Copy Extname"
       }
@@ -143,9 +147,14 @@
           "group": "z_copy@3"
         },
         {
-          "command": "copy-image-size.copyImageExtname",
+          "command": "copy-image-size.copyImageFilename",
           "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
           "group": "z_copy@4"
+        },
+        {
+          "command": "copy-image-size.copyImageExtname",
+          "when": "webviewId == '1_pineconeViews' && webviewSection == 'imgItem'",
+          "group": "z_copy@5"
         }
       ]
     }
@@ -163,21 +172,21 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.27.3",
+    "@antfu/eslint-config": "^3.9.2",
     "@types/node": "^18.19.45",
-    "@types/vscode": "^1.82.0",
+    "@types/vscode": "^1.92.0",
     "await-to-js": "^3.0.0",
-    "bumpp": "^9.7.1",
+    "bumpp": "^9.8.1",
     "clipboardy": "^4.0.0",
     "eslint-plugin-format": "^0.1.2",
     "image-size": "^1.1.1",
     "jest-mock-vscode": "^4.0.2",
     "lint-staged": "^15.2.10",
-    "reactive-vscode": "^0.2.5",
+    "reactive-vscode": "^0.2.8",
     "simple-git-hooks": "^2.11.1",
-    "tsup": "^8.3.0",
+    "tsup": "^8.3.5",
     "typescript": "^5.6.3",
-    "vitest": "^2.1.3",
+    "vitest": "^2.1.5",
     "vscode-uri": "^3.0.8"
   },
   "simple-git-hooks": {
@@ -185,5 +194,8 @@
   },
   "lint-staged": {
     "*": "eslint --fix"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^5.2.0"
   }
 }
