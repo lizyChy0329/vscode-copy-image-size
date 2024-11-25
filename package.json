@@ -182,7 +182,7 @@
     "image-size": "^1.1.1",
     "jest-mock-vscode": "^4.0.2",
     "lint-staged": "^15.2.10",
-    "reactive-vscode": "^0.2.8",
+    "reactive-vscode": "^0.2.9",
     "simple-git-hooks": "^2.11.1",
     "tsup": "^8.3.5",
     "typescript": "^5.6.3",

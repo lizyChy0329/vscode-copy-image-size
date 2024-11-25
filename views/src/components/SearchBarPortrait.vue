@@ -4,7 +4,7 @@ const imageSizeVModel = defineModel('imageSize')
 </script>
 
 <template>
-  <div my-3 flex px-2 space-x-2>
+  <div my-3 flex space-x-2>
     <div flex-1>
       <input v-model="searchVModel" type="text" placeholder="我是输入框" class="w-full rounded-1 bg-gray-100 bg-gray-300 px-2 py-1 text-gray-600">
     </div>
