@@ -46,18 +46,19 @@ const { activate, deactivate } = defineExtension(() => {
     watchEffect(async () => {
       if (view.value) {
         vscode2Webview('initImages', urix, view)
-
-        // focus to Activitybar pinecone icon
-        commands.executeCommand("1_pineconeViews.focus", {
-          preserveFocus: true
-        })
       }
+
+      // focus to Activitybar pinecone icon
+      commands.executeCommand("1_pineconeViews.focus", {
+        preserveFocus: true
+      })
     })
 
     // register fs watcher
     const readyToUpdate = ref(false);
     const globs = reactive(new Set([`**/${currentAssetsPath.replace(/\\/g, '/').slice(1)}/*`]))
     const watcher = createSingletonComposable(() => useFsWatcher(globs))
+    
     watcher().onDidCreate(() => {
       readyToUpdate.value = true
     })
@@ -68,7 +69,7 @@ const { activate, deactivate } = defineExtension(() => {
       readyToUpdate.value = true
     })
 
-    watch(readyToUpdate, async (newVal) => {
+    watch(readyToUpdate, (newVal) => {
       if (newVal) {
         setTimeout(async () => {
           vscode2Webview('updateImages', urix, view)
@@ -77,6 +78,7 @@ const { activate, deactivate } = defineExtension(() => {
         readyToUpdate.value = false
       }
     })
+    
   })
 
   /**
