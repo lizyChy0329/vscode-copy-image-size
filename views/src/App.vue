@@ -3,14 +3,14 @@ import type { ImagesData } from './types'
 import { computed, ref } from 'vue'
 import List from './components/List.vue'
 import SearchBar from './components/SearchBar.vue'
-import { imageSize, isLandscape } from './state'
+import { imageListMock } from './schema.ts'
+import { imageSize, isLandscape, search } from './state'
 
 // const { setState, getState } = acquireVsCodeApi()
 
 const vscodePostData = ref()
 
-const search = ref('')
-const imagesDataFilter = computed(() => (vscodePostData.value?.imagesData as ImagesData)?.filter(imageData => imageData.basename.includes(search.value)))
+const imagesDataFilter = computed(() => (vscodePostData.value?.imagesData as ImagesData || imageListMock)?.filter(imageData => (imageData.basename.toLocaleLowerCase()).includes(search.value.trim().toLocaleLowerCase())))
 
 window.addEventListener('message', (e) => {
   const receiveData = e.data
@@ -32,7 +32,7 @@ window.addEventListener('message', (e) => {
 
     <div w-full space-y-2>
       <div v-if="!isLandscape && vscodePostData" border-b-2 border-amber border-solid pb-2 class="text-base sm:text-lg">
-        {{ vscodePostData.currentAssetsPath }} ({{ vscodePostData.imagesData.length }})
+        {{ vscodePostData.currentAssetsPath.slice(1) }} ({{ vscodePostData.imagesData.length }})
       </div>
       <List :data="imagesDataFilter" :size="imageSize" />
     </div>
