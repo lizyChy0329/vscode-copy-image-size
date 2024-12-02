@@ -27,7 +27,7 @@ export function mockeryMapper(
     : undefined
 }
 
-export const imageListMock = generateMock(ImageListSchema, { mockeryMapper })
+export const imageListMock = import.meta.env.DEV ? generateMock(ImageListSchema, { mockeryMapper }) : []
 export type ImageListData = z.infer<typeof ImageListSchema>
 
 // const imageMockUrl = faker.image.urlPicsumPhotos({ width: 300, height: 300, format: 'png' })

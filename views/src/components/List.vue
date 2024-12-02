@@ -3,9 +3,8 @@
 import type { ImageListData } from '../schema.ts'
 import type { PineConeImageSize } from '../types'
 import { computed, defineProps } from 'vue'
-import { imageListMock } from '../schema.ts'
 
-const { data = imageListMock, size = 'medium' } = defineProps<{
+const { data, size = 'medium' } = defineProps<{
   data?: ImageListData
   size?: PineConeImageSize
 }>()
@@ -45,7 +44,7 @@ const gridRepeatMode = computed(() => {
     >
       <!-- image -->
       <div relative aspect-ratio-square cursor-pointer overflow-hidden rounded-1 bg-gray-300 class="max-w-30 min-w-16 hover:(ring-3 ring-amber)">
-        <img :src="path.imageVsCodePath" class="size-full object-contain" :alt="path.basename">
+        <img :src="path.imageVsCodePath" class="size-full object-scale-down" :alt="path.basename">
 
         <span absolute bottom-0 right-0 rounded-tl-1 px-1 py-0 class="bg-gray-700/70 text-white leading-tight">{{ path.extname }}</span>
       </div>
