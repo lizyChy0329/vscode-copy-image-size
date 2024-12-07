@@ -2,14 +2,14 @@ import { computed, createSingletonComposable, extensionContext, ref, watchEffect
 import { Uri } from 'vscode'
 import { logger } from './utils'
 
-// function getNonce() {
-//   let text = '';
-//   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-//   for (let i = 0; i < 32; i++) {
-//     text += possible.charAt(Math.floor(Math.random() * possible.length));
-//   }
-//   return text;
-// }
+function getNonce() {
+  let text = '';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < 32; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+}
 
 export const usePineConeWebviewView = createSingletonComposable(() => {
   const message = ref('')
@@ -43,22 +43,21 @@ export const usePineConeWebviewView = createSingletonComposable(() => {
       const cssUrl = view.value.webview.asWebviewUri(cssFilePath).toString()
 
       // Use a nonce to only allow specific scripts to be run
-      // const nonce = getNonce();
+      const nonce = getNonce();
 
       const html = computed(() => `<!DOCTYPE html>
         <html lang="en" data-vscode-context='{"webviewSection": "document","preventDefaultContextMenuItems": true}'>
           <head>
           <meta charset="UTF-8">
           <link rel="icon" href="/favicon.ico">
+          <link rel="stylesheet" href="${cssUrl}">
 
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${view.value!.webview.cspSource}; img-src ${view.value!.webview.cspSource} https:; script-src ${view.value!.webview.cspSource};">
+          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${view.value!.webview.cspSource}; img-src ${view.value!.webview.cspSource} https:; script-src 'nonce-${nonce}';">
           
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Image Preview View</title>
           
-          <script type="module" crossorigin src="${jsUrl}"></script>
-          
-          <link rel="stylesheet" href="${cssUrl}">
+          <script type="module" crossorigin src="${jsUrl}" nonce="${nonce}"></script>
           </head>
           <body >
           <div id="app"></div>
